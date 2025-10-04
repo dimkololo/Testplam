@@ -35,15 +35,15 @@ el.popupBackdrop.addEventListener('click', closePopup);
 
 // Fill popup image srcset
 if (window.__SAMPLE_POPUP_1x__){
-  const src1x = window.__SAMPLE_POPUP_1x__.replace(/^/,'./');
-  const src2x = (window.__SAMPLE_POPUP_2x__ || window.__SAMPLE_POPUP_1x__).replace(/^/,'./');
+  const src1x = window.__SAMPLE_POPUP_1x__.replace(/^/,'../');
+  const src2x = (window.__SAMPLE_POPUP_2x__ || window.__SAMPLE_POPUP_1x__).replace(/^/,'../');
   el.popupImg.setAttribute('src', src1x);
   el.popupImg.setAttribute('srcset', `${src1x} 1x, ${src2x} 2x`);
 }
 
 // Icon for header
 if (window.__SAMPLE_ICON__){
-  el.brandIcon.src = './' + window.__SAMPLE_ICON__;
+  el.brandIcon.src = '../' + window.__SAMPLE_ICON__;
 }
 
 // Load manifest and render some assets
@@ -60,8 +60,8 @@ fetch(manifestUrl)
       const img = document.createElement('img');
       img.loading = 'lazy';
       img.alt = x.original.split('/').pop();
-      img.src = './' + out32;
-      img.srcset = `./${out32} 1x, ./${out64} 2x`;
+      img.src = '../' + out32;
+      img.srcset = `../${out32} 1x, ../${out64} 2x`;
       const card = document.createElement('div');
       card.className = 'card';
       card.appendChild(img);
@@ -74,7 +74,7 @@ fetch(manifestUrl)
       const img = document.createElement('img');
       img.loading = 'lazy';
       img.alt = x.original.split('/').pop();
-      img.src = './' + out;
+      img.src = '../' + out;
       const card = document.createElement('div');
       card.className = 'card';
       card.appendChild(img);
