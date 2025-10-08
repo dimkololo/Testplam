@@ -44,11 +44,11 @@ body{
 }
 /* маленькие экраны ≤360px */
 @media (max-width: 360px) {
-  .scene__bg{ background-image:url("./Plam_assets/screens/bg-small.png"); }
+  .scene__bg{ background-image:url("./Plam_assets/popups/bg-small.png"); }
 }
 /* большие экраны, например iPad Pro 11" портрет (CSS width 834px) */
 @media (min-width: 834px) {
-  .scene__bg{ background-image:url("./Plam_assets/screens/bg-large.png"); }
+  .scene__bg{ background-image:url("./Plam_assets/popups/bg-large.png"); }
 }
 
 /* Хотспоты */
