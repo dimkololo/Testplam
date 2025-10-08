@@ -7,7 +7,7 @@
   --muted:#a7b0c0;
 
   --accent:#FF7300;       /* кнопка отправить и бегунок */
-  --chip:#D9D9D9;         /* “капсулы”: выбрать фото, слайдер-блок, общая карточка полей */
+  --chip:#D9D9D9;         /* капсулы: выбрать фото, слайдер-блок, общая карточка полей */
   --popup-bg: rgba(221,221,221,.25); /* DDDDDD 25% */
   --shadow: 0 8px 16px rgba(0,0,0,.25);
   --radius-popup: 42px;
@@ -15,9 +15,7 @@
   --radius-block:16px;
 }
 *{box-sizing:border-box}
-html, body{
-  height:100%;
-}
+html, body{ height:100% }
 body{
   margin:0;
   background:var(--bg);
@@ -32,7 +30,7 @@ body{
 .scene{
   position:relative;
   width:100vw;
-  height:100dvh;          /* учитывает вырезы на мобилах */
+  height:100dvh;
   overflow:hidden;
   touch-action:manipulation;
 }
@@ -41,15 +39,19 @@ body{
   background-size:cover;
   background-position:center;
   background-repeat:no-repeat;
-  /* Фон по умолчанию (большой) */
+  /* по умолчанию (средние устройства) */
   background-image:url("./Plam_assets/popups/iphone-16-1@1x-800.png");
 }
-/* Маленькие экраны: подставить альтернативный фон (замени путь на свой маленький вариант) */
+/* маленькие экраны ≤360px */
 @media (max-width: 360px) {
   .scene__bg{
-    /* пример: ./Plam_assets/screens/bg-small.png — положи файл сюда */
-    background-image:url("./Plam_assets/popups/bg-small.png");
-    background-size:cover;
+    background-image:url("./Plam_assets/screens/bg-small.png");
+  }
+}
+/* большие экраны, например iPad Pro 11" портрет (CSS width 834px) */
+@media (min-width: 834px) {
+  .scene__bg{
+    background-image:url("./Plam_assets/screens/bg-large.png");
   }
 }
 
@@ -58,67 +60,79 @@ body{
   position:absolute; border:0; padding:0; background:transparent; cursor:pointer; outline:none;
 }
 .hotspot:focus-visible{ box-shadow:0 0 0 3px rgba(255,140,0,.6); border-radius:12px }
-/* зона пенька — подкорректируй при желании */
+/* зона пенька — проценты, чтобы масштабировалась. Подправь при желании */
 .hotspot--stump{ left:58%; top:57%; width:26%; height:20% }
 /* .hotspot{ background:rgba(255,0,0,.12) }  <- включить для отладки */
 
 /* ===============================
    МОДАЛКА
 =================================*/
-.modal[hidden]{display:none}
-.modal{
-  position:fixed; inset:0; z-index:1000;
-  display:grid; place-items:center;
-}
-.modal__backdrop{ position:absolute; inset:0; background:rgba(0,0,0,.5) }
+.modal{ position:fixed; inset:0; z-index:1000; display:grid; place-items:center }
+.modal[hidden]{ display:none }
+.modal__backdrop{ position:absolute; inset:0; background:rgba(0,0,0,.5) } /* 50% */
+
 .modal__dialog{
   position:relative;
-  /* было: width:min(92vw, 420px) */
-  width: min(420px, calc(100vw - 24px));   /* влезает в экран с боковыми полями */
-  max-width:420px;
+  /* вписываемся в экран + поля по 12px */
+  width: min(560px, calc(100vw - 24px));
+  max-width:560px;
   margin:0 auto;
   border-radius:var(--radius-popup);
   background:var(--popup-bg);
   box-shadow:var(--shadow);
   padding:18px 16px 22px;
 }
+.modal__content{
+  max-height:calc(100dvh - 60px);
+  overflow-y:auto;
+  overflow-x:hidden;
+}
 .modal__close{
   position:absolute; top:10px; left:10px;
   border:0; background:transparent; color:#fff; font-size:20px; cursor:pointer;
 }
-.modal__content{
-  max-height:calc(100dvh - 60px);
-  overflow-y:auto;          /* только вертикальный скролл при необходимости */
-  overflow-x:hidden;        /* горизонтальный запрещён */
-}
 
-/* Контент попапа */
+/* ===============================
+   ПОПАП
+=================================*/
 .popup{
   display:grid; gap:12px; justify-items:center;
-  width:100%;              /* вписываемся в диалог */
-  max-width:360px;         /* твоя базовая ширина */
+  width:100%;
+  max-width:420px;              /* средние устройства — до 420 */
   margin-inline:auto;
 }
-
-
-/* Вспомогательный центр */
-.u-center{ display:flex; justify-content:center }
-
-/* Кнопка “Выбрать фото” */
-.btn-pick{
-  display:inline-flex; align-items:center; justify-content:center;
-  width:min(206px, 100%);  /* было: фикс. 206 */
-  height:56px;
-  background:var(--chip); color:#000; font-weight:700;
-  border-radius:var(--radius-chip);
-  border:1px solid rgba(0,0,0,.06);
-  cursor:pointer; user-select:none;
+@media (min-width: 834px){
+  .popup{ max-width:420px }     /* на больших оставляем такой же плотный контейнер */
 }
 
+/* Центровщик */
+.u-center{ display:flex; justify-content:center }
+
+/* Кнопка “Выбрать фото” — одинакова с “Отправить” */
+.btn-pick, .btn-submit{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:min(206px, 100%);
+  height:56px;
+  border-radius:var(--radius-chip);
+  font-weight:800;
+  cursor:pointer; user-select:none;
+  border:0;
+}
+.btn-pick{
+  background:var(--chip); color:#000; border:1px solid rgba(0,0,0,.06); font-weight:700;
+}
+.btn-submit{
+  background:var(--accent); color:#fff; box-shadow:0 6px 14px rgba(255,115,0,.25);
+}
 
 /* Карточки-капсулы */
-.card{ width:100%; background:var(--chip); border-radius:var(--radius-block);
-       padding:12px; border:1px solid rgba(0,0,0,.06); }
+.card{
+  width:100%;
+  background:var(--chip);
+  border-radius:var(--radius-block);
+  padding:12px;
+  border:1px solid rgba(0,0,0,.06);
+}
 
 /* СЛАЙДЕР */
 .slider-card{ padding:14px 14px }
@@ -148,31 +162,17 @@ body{
   padding:14px 16px;
   border-radius:16px;
   border:1px solid rgba(0,0,0,.08);
-  background:#FFFFFF;             /* сами “плейсхолдеры” — белые поля */
+  background:#FFFFFF;
   color:#111;
   font:16px/1.4 inherit;
 }
 .field::placeholder{ color:#9aa3b2; opacity:.8 }
 .field:focus{ outline:2px solid rgba(255,115,0,.35) }
 
-/* Кнопка Отправить */
-.btn-submit{
-  display:inline-flex; align-items:center; justify-content:center;
-  width:min(206px, 100%);  /* было: фикс. 206 */
-  height:56px;
-  background:var(--accent); color:#fff; font-weight:800;
-  border-radius:var(--radius-chip);
-  border:0; cursor:pointer;
-  box-shadow:0 6px 14px rgba(255,115,0,.25);
-}
-
-/* Адаптивы для очень узких экранов */
+/* На очень узких экранах слегка уменьшаем кнопки */
 @media (max-width:340px){
-  .btn-pick, .btn-submit { width:190px; height:52px }
-  .popup{ width: min(340px, 90vw) }
+  .btn-pick, .btn-submit { width:min(190px, 100%); height:52px }
 }
 
-/* На планшете можно позволить чуть шире визуальный контейнер */
-@media (min-width:480px){
-  .modal__dialog{ width:min(92vw, 480px) }
-}
+/* Подстраховка от горизонтального скролла вообще */
+html, body { overflow-x:hidden }
