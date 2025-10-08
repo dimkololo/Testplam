@@ -1,163 +1,174 @@
 /* ===============================
-   Базовые токены и сброс
+   БАЗА
 =================================*/
 :root{
   --bg:#0f1115;
-  --surface:#161922;
   --text:#e7eaf0;
   --muted:#a7b0c0;
-  --primary:#6ea8fe;
-  --accent:#ff7300;
-  --border:#262b36;
-  --radius:16px;
-  --shadow: 0 8px 24px rgba(0,0,0,.35);
+
+  --accent:#FF7300;       /* кнопка отправить и бегунок */
+  --chip:#D9D9D9;         /* “капсулы”: выбрать фото, слайдер-блок, общая карточка полей */
+  --popup-bg: rgba(221,221,221,.25); /* DDDDDD 25% */
+  --shadow: 0 8px 16px rgba(0,0,0,.25);
+  --radius-popup: 42px;
+  --radius-chip: 35px;
+  --radius-block:16px;
 }
 *{box-sizing:border-box}
-html,body{height:100%}
+html, body{
+  height:100%;
+}
 body{
   margin:0;
-  color:var(--text);
   background:var(--bg);
+  color:var(--text);
   font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;
+  overflow:hidden; /* без скролла — сцена на 100% */
 }
 
 /* ===============================
-   Главный экран (фон-сцена)
-   Макет из Figma 393x853
+   СЦЕНА (на весь экран)
 =================================*/
 .scene{
   position:relative;
-  width:100%;
-  max-width:430px;             /* можно увеличить при желании */
-  margin:0 auto;
-  aspect-ratio:393 / 853;      /* держим пропорцию */
+  width:100vw;
+  height:100dvh;          /* учитывает вырезы на мобилах */
   overflow:hidden;
+  touch-action:manipulation;
 }
 .scene__bg{
   position:absolute; inset:0;
-  background-image: url("./Plam_assets/popups/iphone-16-1@1x-800.png");
-  background-size:cover;       /* меняй на contain, если нужен полный обзор */
+  background-size:cover;
   background-position:center;
+  background-repeat:no-repeat;
+  /* Фон по умолчанию (большой) */
+  background-image:url("./Plam_assets/popups/iphone-16-1@1x-800.png");
+}
+/* Маленькие экраны: подставить альтернативный фон (замени путь на свой маленький вариант) */
+@media (max-width: 360px) {
+  .scene__bg{
+    /* пример: ./Plam_assets/screens/bg-small.png — положи файл сюда */
+    background-image:url("./Plam_assets/screens/bg-small.png");
+    background-size:cover;
+  }
 }
 
-/* Кликабельные области (горячие зоны) */
+/* Хотспоты */
 .hotspot{
-  position:absolute;
-  border:0; padding:0;
-  background:transparent;
-  cursor:pointer;
-  outline:none;
+  position:absolute; border:0; padding:0; background:transparent; cursor:pointer; outline:none;
 }
-.hotspot:focus-visible{
-  box-shadow:0 0 0 3px rgba(255,140,0,.75);
-  border-radius:12px;
-}
-
-/* ПЕНЁК + табличка + красная кнопка (подгони проценты при необходимости) */
-.hotspot--stump{
-  left:58%;
-  top:57%;
-  width:26%;
-  height:20%;
-}
-/* Временами удобно включать отладку зон:
-.hotspot{ background:rgba(255,0,0,.12); }
-*/
+.hotspot:focus-visible{ box-shadow:0 0 0 3px rgba(255,140,0,.6); border-radius:12px }
+/* зона пенька — подкорректируй при желании */
+.hotspot--stump{ left:58%; top:57%; width:26%; height:20% }
+/* .hotspot{ background:rgba(255,0,0,.12) }  <- включить для отладки */
 
 /* ===============================
-   Универсальная модалка
+   МОДАЛКА
 =================================*/
 .modal[hidden]{display:none}
-.modal{position:fixed; inset:0; z-index:1000}
-.modal__backdrop{position:absolute; inset:0; background:rgba(0,0,0,.55); backdrop-filter:blur(2px)}
+.modal{ position:fixed; inset:0; z-index:1000; display:grid; place-items:center }
+.modal__backdrop{ position:absolute; inset:0; background:rgba(0,0,0,.5) } /* 50% */
 .modal__dialog{
   position:relative;
-  margin:6dvh auto 0;
-  width:min(92vw,560px);
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
+  width:min(92vw, 420px); /* универсальный контейнер + запас */
+  max-width:420px;
+  margin:0 auto;
+  border-radius:var(--radius-popup);
+  background:var(--popup-bg);
   box-shadow:var(--shadow);
-  overflow:hidden;
+  backdrop-filter:saturate(120%) blur(0px); /* без блюра, референс так и выглядит */
+  padding:18px 16px 22px;
 }
 .modal__close{
-  position:absolute; top:8px; right:8px;
-  border:0; background:transparent; color:var(--muted);
-  font-size:22px; cursor:pointer;
+  position:absolute; top:10px; left:10px;
+  border:0; background:transparent; color:#fff; font-size:20px; cursor:pointer;
 }
-.modal__content{max-height:70dvh; overflow:auto; padding:16px}
+.modal__content{ max-height:calc(100dvh - 60px); overflow:auto }
 
-/* ===============================
-   Кнопки, поля, утилиты
-=================================*/
-.btn{
+/* Контент попапа */
+.popup{
+  display:grid;
+  gap:12px;
+  justify-items:center;
+  /* Ширина по референсу: 360px на средних, но адаптив на мелких */
+  width: min(360px, 86vw);
+  margin-inline:auto;
+}
+
+/* Вспомогательный центр */
+.u-center{ display:flex; justify-content:center }
+
+/* Кнопка “Выбрать фото” */
+.btn-pick{
   display:inline-flex; align-items:center; justify-content:center;
-  gap:8px; padding:10px 14px; border-radius:12px;
-  border:1px solid transparent; background:#222733; color:var(--text);
-  cursor:pointer; font-weight:600;
-}
-.btn-primary{background:var(--accent); color:#fff}
-.btn[disabled]{opacity:.6; cursor:not-allowed}
-
-input[type="text"], input[type="url"], input[type="number"], textarea{
-  width:100%; padding:10px 12px; border-radius:12px;
-  border:1px solid var(--border); background:#12151c; color:var(--text);
-}
-textarea{resize:vertical}
-
-/* Плейсхолдеры — бледные; исчезают при фокусе (поведение дополняет JS) */
-::placeholder{color:#9aa3b2; opacity:.6}
-input:focus::placeholder, textarea:focus::placeholder{color:transparent}
-
-/* ===============================
-   Попап 1: загрузка фото + слайдер
-   (классы оставлены совместимыми с экспортом Figma)
-=================================*/
-.upload-popup .div2{ /* кнопка "Выбрать фото" (label) */
-  display:inline-flex; align-items:center; justify-content:center;
-  padding:10px 16px; border-radius:12px;
-  background:#222733; color:var(--text); cursor:pointer; user-select:none;
-  border:1px solid var(--border);
-}
-.upload-popup .div3{ font-weight:600 }
-
-/* Контейнер слайдера и подписей */
-.upload-popup .div4{
-  display:flex; align-items:center; justify-content:space-between;
-  gap:12px; margin:14px 0;
+  width:206px; height:56px;
+  background:var(--chip); color:#000; font-weight:700;
+  border-radius:var(--radius-chip);
+  border:1px solid rgba(0,0,0,.06);
+  cursor:pointer; user-select:none;
 }
 
-/* Подписи слева/справа: "N star(s)" — "N sec" */
-.upload-popup [data-stars],
-.upload-popup [data-secs]{
-  min-width:70px; text-align:center; color:var(--muted); font-weight:600;
+/* Карточки-капсулы */
+.card{
+  width:100%;
+  background:var(--chip);
+  border-radius:var(--radius-block);
+  padding:12px;
+  border:1px solid rgba(0,0,0,.06);
 }
 
-/* Реальный слайдер */
-.upload-popup .range{
+/* СЛАЙДЕР */
+.slider-card{ padding:14px 14px }
+.slider-row{
+  display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:12px;
+}
+.label{ color:#000; font-weight:700; opacity:.75 }
+
+.range{
   -webkit-appearance:none; appearance:none;
-  width:210px; height:16px; border-radius:200px;
-  background:#bababa; outline:none;
+  width:100%; height:16px; border-radius:200px; background:#D0D0D0; outline:none;
 }
-.upload-popup .range::-webkit-slider-thumb{
+.range::-webkit-slider-thumb{
   -webkit-appearance:none; appearance:none;
-  width:16px; height:16px; border-radius:50%;
+  width:18px; height:18px; border-radius:50%;
   background:var(--accent); border:1px solid #fff; cursor:pointer;
 }
-.upload-popup .range::-moz-range-thumb{
-  width:16px; height:16px; border-radius:50%;
+.range::-moz-range-thumb{
+  width:18px; height:18px; border-radius:50%;
   background:var(--accent); border:1px solid #fff; cursor:pointer;
 }
 
-/* Форма: поля и кнопка отправки */
-.upload-popup .div5{ display:grid; gap:10px; margin-top:10px }
-.upload-popup .div6{ border:0; background:transparent }
-.upload-popup .div7{ font-weight:700 }
+/* Блок полей */
+.form-card{ display:grid; gap:10px; padding:14px }
+.field{
+  width:100%;
+  padding:14px 16px;
+  border-radius:16px;
+  border:1px solid rgba(0,0,0,.08);
+  background:#FFFFFF;             /* сами “плейсхолдеры” — белые поля */
+  color:#111;
+  font:16px/1.4 inherit;
+}
+.field::placeholder{ color:#9aa3b2; opacity:.8 }
+.field:focus{ outline:2px solid rgba(255,115,0,.35) }
 
-/* На всякий: карточка попапа, если нужен отступ сверху */
-.popup-card{ background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden }
+/* Кнопка Отправить */
+.btn-submit{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:206px; height:56px;
+  background:var(--accent); color:#fff; font-weight:800;
+  border-radius:var(--radius-chip);
+  border:0; cursor:pointer;
+  box-shadow:0 6px 14px rgba(255,115,0,.25);
+}
 
-/* Адаптив для больших экранов (необязательно) */
-@media (min-width:720px){
-  .scene{ max-width:480px }
+/* Адаптивы для очень узких экранов */
+@media (max-width:340px){
+  .btn-pick, .btn-submit { width:190px; height:52px }
+  .popup{ width: min(340px, 90vw) }
+}
+
+/* На планшете можно позволить чуть шире визуальный контейнер */
+@media (min-width:480px){
+  .modal__dialog{ width:min(92vw, 480px) }
 }
