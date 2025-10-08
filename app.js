@@ -22,7 +22,6 @@ function openModal(id){
   ScrollLock.lock();
   if(id === 'upload-popup') initUploadPopup();
 }
-
 function closeModal(){
   modalRoot.hidden = true;
   modalRoot.setAttribute('aria-hidden','true');
@@ -30,7 +29,6 @@ function closeModal(){
   ScrollLock.unlock();
 }
 
-// Клики по хит-зонам и закрытие
 document.addEventListener('click', (e) => {
   const opener = e.target.closest('[data-open-modal]');
   if (opener) { openModal(opener.getAttribute('data-open-modal')); return; }
@@ -45,19 +43,15 @@ function initUploadPopup(){
   const root = modalRoot.querySelector('.upload-popup');
   if(!root) return;
 
-  // выбрать фото
   const fileInput = root.querySelector('#file-input');
   const btnPick = root.querySelector('.btn-pick');
   if(btnPick && fileInput){
     btnPick.addEventListener('click', () => fileInput.click());
     fileInput.addEventListener('change', () => {
-      if(fileInput.files?.length){
-        console.log('Выбрано фото:', fileInput.files[0].name);
-      }
+      if(fileInput.files?.length){ console.log('Выбрано фото:', fileInput.files[0].name); }
     });
   }
 
-  // слайдер 1..20
   const range = root.querySelector('.range');
   const starsEl = root.querySelector('[data-stars]');
   const secsEl  = root.querySelector('[data-secs]');
@@ -72,7 +66,6 @@ function initUploadPopup(){
     update();
   }
 
-  // отправка формы (позже добавим реальную отправку/preview)
   const form = root.querySelector('[data-upload-form]');
   if(form){
     form.addEventListener('submit', (e) => {
@@ -86,5 +79,4 @@ function initUploadPopup(){
     });
   }
 }
-
 console.log('App ready');
