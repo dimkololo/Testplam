@@ -44,15 +44,11 @@ body{
 }
 /* маленькие экраны ≤360px */
 @media (max-width: 360px) {
-  .scene__bg{
-    background-image:url("./Plam_assets/screens/bg-small.png");
-  }
+  .scene__bg{ background-image:url("./Plam_assets/screens/bg-small.png"); }
 }
 /* большие экраны, например iPad Pro 11" портрет (CSS width 834px) */
 @media (min-width: 834px) {
-  .scene__bg{
-    background-image:url("./Plam_assets/screens/bg-large.png");
-  }
+  .scene__bg{ background-image:url("./Plam_assets/screens/bg-large.png"); }
 }
 
 /* Хотспоты */
@@ -85,7 +81,7 @@ body{
 .modal__content{
   max-height:calc(100dvh - 60px);
   overflow-y:auto;
-  overflow-x:hidden;
+  overflow-x:hidden; /* без горизонтального скролла */
 }
 .modal__close{
   position:absolute; top:10px; left:10px;
@@ -105,13 +101,14 @@ body{
   .popup{ max-width:420px }     /* на больших оставляем такой же плотный контейнер */
 }
 
-/* Центровщик */
-.u-center{ display:flex; justify-content:center }
+/* Центровщик — ДОЛЖЕН иметь ширину, чтобы 100% кнопок от чего-то считалось */
+.u-center{ display:flex; justify-content:center; width:100%; }
 
-/* Кнопка “Выбрать фото” — одинакова с “Отправить” */
+/* Кнопки: одинаковые габариты
+   ширина — clamp: минимум 206px, обычно 90% контейнера, максимум 360px */
 .btn-pick, .btn-submit{
   display:inline-flex; align-items:center; justify-content:center;
-  width:min(206px, 100%);
+  width: clamp(206px, 90%, 360px);
   height:56px;
   border-radius:var(--radius-chip);
   font-weight:800;
@@ -171,7 +168,7 @@ body{
 
 /* На очень узких экранах слегка уменьшаем кнопки */
 @media (max-width:340px){
-  .btn-pick, .btn-submit { width:min(190px, 100%); height:52px }
+  .btn-pick, .btn-submit { width: clamp(190px, 92%, 320px); height:52px }
 }
 
 /* Подстраховка от горизонтального скролла вообще */
