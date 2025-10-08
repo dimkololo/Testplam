@@ -13,8 +13,8 @@
   --radius-block: 16px;
 
   /* размеры для СРЕДНИХ устройств */
-  --w-faq: 160px;
-  --w-plus: 182px;
+  --w-faq: 170px;
+  --w-plus: 170px;
   --w-tv: 260px;
   --w-chair: 190px;
   --w-stump: 178px;
@@ -26,7 +26,7 @@
 @media (max-width: 360px) {
   :root {
     --w-faq: 120px;
-    --w-plus: 134px;
+    --w-plus: 120px;
     --w-tv: 190px;
     --w-chair: 150px;
     --w-stump: 130px;
@@ -88,14 +88,14 @@ html, body {
 /* облако FAQ */
 .icon--faq {
   left: 10px;
-  top: 140px;
+  top: 120px;
   width: var(--w-faq);
 }
 
 /* облако с плюсиком */
 .icon--plus {
   right: 10px;
-  top: 140px;
+  top: 120px;
   width: var(--w-plus);
 }
 
@@ -139,31 +139,31 @@ html, body {
 
   .icon--faq {
     left: 10px;
-    top: 100px;
+    top: 50px;
     width: var(--w-faq);
   }
 
   .icon--plus {
     right: 10px;
-    top: 100px;
+    top: 50px;
     width: var(--w-plus);
   }
 
   .cluster__tv {
     left: 65px;
-    top: 180px;
+    top: 100px;
     width: var(--w-tv);
   }
 
   .cluster__chair {
     left: 10px;
-    top: 220px;
+    top: 150px;
     width: var(--w-chair);
   }
 
   .cluster__stump {
     right: 10px;
-    top: 315px;
+    top: 150px;
     width: var(--w-stump);
   }
 
@@ -196,7 +196,7 @@ html, body {
 @media (max-width: 360px) {
   .hit--stump {
     right: 10px;
-    top: 315px;
+    top: 150px;
     width: var(--w-stump);
     aspect-ratio: 1.6 / 1;
   }
