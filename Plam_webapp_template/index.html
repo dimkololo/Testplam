@@ -4,56 +4,170 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Plam — Telegram WebApp</title>
+
   <!-- Telegram WebApp SDK -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <link rel="stylesheet" href="./styles.css" />
+
+  <!-- Подключение стилей -->
+  <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
-  <header class="app-header">
-    <div class="brand">
-      <img id="brandIcon" alt="icon" />
-      <span>Plam</span>
-    </div>
-    <button id="openPopupBtn" class="btn primary">Открыть попап</button>
-  </header>
 
-  <main class="content">
-    <section class="block">
-      <h2>Иконки (авто из манифеста)</h2>
-      <div id="iconsGrid" class="grid"></div>
-    </section>
+  <!-- ===== Главный экран ===== -->
+  <main class="scene" aria-label="Главный экран">
+    <div class="scene__bg" role="img" aria-label="Фон главного экрана"></div>
 
-    <section class="block">
-      <h2>Скриншоты / превью</h2>
-      <div id="screensGrid" class="grid grid-wide"></div>
-    </section>
+    <!-- Кликабельная зона пенька -->
+    <button
+      class="hotspot hotspot--stump"
+      data-open-modal="upload-popup"
+      aria-label="Открыть попап загрузки"
+    ></button>
   </main>
 
-  <!-- Popup -->
-  <div id="popup" class="popup hidden" role="dialog" aria-modal="true">
-    <div class="popup-backdrop" id="popupBackdrop"></div>
-    <div class="popup-card" role="document">
-      <div class="popup-header">
-        <h3>Попап</h3>
-        <button class="icon-btn" id="closePopupBtn" aria-label="Закрыть">×</button>
-      </div>
-      <div class="popup-body">
-        <img id="popupImage" alt="popup" />
-        <p>Это пример всплывающего окна. Картинка подключается через <code>srcset</code> для ретины.</p>
-      </div>
-      <div class="popup-footer">
-        <button class="btn ghost" id="cancelBtn">Отмена</button>
-        <button class="btn primary" id="okBtn">Ок</button>
-      </div>
+
+  <!-- ===== Универсальная модалка ===== -->
+  <div class="modal" data-modal-root hidden aria-hidden="true">
+    <div class="modal__backdrop" data-dismiss></div>
+    <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <button class="modal__close" type="button" aria-label="Закрыть" data-dismiss>×</button>
+      <div class="modal__content" data-modal-content></div>
     </div>
   </div>
 
+
+  <!-- ===== ШАБЛОН ПОПАПА №1 (выбрать фото) ===== -->
+  <template id="tpl-upload-popup">
+    <section class="popup upload-popup div">
+      <!-- Кнопка выбора фото -->
+      <label class="div2" for="file-input">
+        <span class="div3">Выбрать фото</span>
+        <input id="file-input" type="file" accept="image/*" hidden />
+      </label>
+
+      <!-- Слайдер -->
+      <div class="div4">
+        <div class="_1-star" data-stars>1 star</div>
+        <input class="range" type="range" min="1" max="20" step="1" value="1" aria-label="Stars / Seconds" />
+        <div class="_1-sec" data-secs>1 sec</div>
+      </div>
+
+      <!-- Поля ввода -->
+      <form class="div5" data-upload-form novalidate>
+        <input class="rectangle-12 input" type="url" name="social"
+               data-ph="...add your social media link"
+               placeholder="...add your social media link" />
+        <textarea class="rectangle-13 textarea" name="desc" rows="3"
+                  data-ph="...add a description"
+                  placeholder="...add a description"></textarea>
+
+        <!-- Кнопка отправки -->
+        <button type="submit" class="div6 btn-primary">
+          <span class="div7">Отправить</span>
+        </button>
+      </form>
+    </section>
+  </template>
+
+
+  <!-- ===== Скрипт логики ===== -->
   <script>
-    window.__ASSETS_MANIFEST_PATH__ = "../Plam_assets/manifest.json";
-    window.__SAMPLE_ICON__ = "";
-    window.__SAMPLE_POPUP_1x__ = "Plam_assets/popups/faq@1x-800.png";
-    window.__SAMPLE_POPUP_2x__ = "Plam_assets/popups/faq@2x-1600.png";
+    // ============================
+    // Управление модалками
+    // ============================
+    const modalRoot = document.querySelector('[data-modal-root]');
+    const modalContent = document.querySelector('[data-modal-content]');
+    const ScrollLock = {
+      lock() { document.documentElement.style.overflow = 'hidden'; },
+      unlock() { document.documentElement.style.overflow = ''; }
+    };
+
+    function openModal(id) {
+      const tpl = document.getElementById(`tpl-${id}`);
+      if (!tpl) return;
+      modalContent.innerHTML = '';
+      modalContent.appendChild(tpl.content.cloneNode(true));
+      modalRoot.hidden = false;
+      modalRoot.setAttribute('aria-hidden', 'false');
+      ScrollLock.lock();
+      initUploadPopup();
+    }
+
+    function closeModal() {
+      modalRoot.hidden = true;
+      modalRoot.setAttribute('aria-hidden', 'true');
+      modalContent.innerHTML = '';
+      ScrollLock.unlock();
+    }
+
+    document.addEventListener('click', (e) => {
+      const opener = e.target.closest('[data-open-modal]');
+      if (opener) {
+        openModal(opener.getAttribute('data-open-modal'));
+        return;
+      }
+      if (e.target.matches('[data-dismiss]') || e.target.closest('[data-dismiss]')) {
+        closeModal();
+      }
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !modalRoot.hidden) closeModal();
+    });
+
+
+    // ============================
+    // Логика конкретного попапа
+    // ============================
+    function initUploadPopup() {
+      const root = modalRoot.querySelector('.upload-popup');
+      if (!root) return;
+
+      // 1) "Выбрать фото"
+      const fileInput = root.querySelector('#file-input');
+      const labelBtn = root.querySelector('.div2');
+      if (labelBtn && fileInput) {
+        labelBtn.addEventListener('click', () => fileInput.click());
+      }
+
+      // 2) Слайдер
+      const range = root.querySelector('.range');
+      const starsEl = root.querySelector('[data-stars]');
+      const secsEl = root.querySelector('[data-secs]');
+      const plural = (n, one, many) => (n === 1 ? one : many);
+      if (range && starsEl && secsEl) {
+        const update = () => {
+          const v = parseInt(range.value, 10);
+          starsEl.textContent = `${v} ${plural(v, 'star', 'stars')}`;
+          secsEl.textContent = `${v} sec`;
+        };
+        range.addEventListener('input', update);
+        update();
+      }
+
+      // 3) Плейсхолдеры
+      const phFields = root.querySelectorAll('[data-ph]');
+      phFields.forEach(el => {
+        const original = el.getAttribute('data-ph') || '';
+        el.addEventListener('focus', () => {
+          el.setAttribute('data-ph', el.placeholder);
+          el.placeholder = '';
+        });
+        el.addEventListener('blur', () => {
+          if (!el.value.trim()) el.placeholder = original;
+        });
+      });
+
+      // 4) Отправка формы
+      const form = root.querySelector('[data-upload-form]');
+      if (form) {
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+          console.log('Форма отправлена');
+          closeModal();
+        });
+      }
+    }
   </script>
-  <script src="./app.js"></script>
+
 </body>
 </html>
