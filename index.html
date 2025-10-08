@@ -2,40 +2,40 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Plam — WebApp</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <link rel="stylesheet" href="./style.css?v=20">
+  <link rel="stylesheet" href="./style.css?v=22">
 </head>
 <body>
 
-  <!-- Сцена. Внутри — один адаптивный <picture> с нужным фоном -->
   <main class="scene">
     <div class="stage" data-stage>
       <picture>
-  <!-- LARGE: планшеты и большие телефоны в портрете -->
-  <source
-    media="(min-height: 1024px), (min-width: 768px)"
-    srcset="./bgicons/bg-large.png 1x, ./bgicons/bg-large@2x.png 2x" />
+        <!-- LARGE -->
+        <source media="(min-height: 1024px), (min-width: 768px)"
+                srcset="./bgicons/bg-large.png 1x, ./bgicons/bg-large@2x.png 2x" />
+        <!-- SMALL -->
+        <source media="(max-width: 360px), (max-height: 640px)"
+                srcset="./bgicons/bg-small.png 1x, ./bgicons/bg-small@2x.png 2x" />
+        <!-- MEDIUM (default) -->
+        <img class="stage__img" alt="Main background"
+             src="./bgicons/bg-medium.png"
+             srcset="./bgicons/bg-medium.png 1x, ./bgicons/bg-medium@2x.png 2x">
+      </picture>
 
-  <!-- SMALL: очень маленькие экраны -->
-  <source
-    media="(max-width: 360px), (max-height: 640px)"
-    srcset="./bgicons/bg-small.png 1x, ./bgicons/bg-small@2x.png 2x" />
-
-  <!-- MEDIUM (дефолт) -->
-  <img class="stage__img" alt="Main background"
-       src="./bgicons/bg-medium.png"
-       srcset="./bgicons/bg-medium.png 1x, ./bgicons/bg-medium@2x.png 2x">
-</picture>
-      <!-- Кликабельные зоны (пока нужна только пень) -->
+      <!-- Хот-споты -->
       <button class="hotspot hotspot--stump"
               data-open-modal="upload-popup"
               aria-label="Открыть попап загрузки"></button>
+
+      <button class="hotspot hotspot--plus"
+              data-open-modal="buy-stars"
+              aria-label="Открыть попап звёзд"></button>
     </div>
   </main>
 
-  <!-- Модалка + Попап №1 как раньше -->
+  <!-- Универсальная модалка -->
   <div class="modal" data-modal-root hidden aria-hidden="true">
     <div class="modal__backdrop" data-dismiss></div>
     <div class="modal__dialog" role="dialog" aria-modal="true">
@@ -44,6 +44,7 @@
     </div>
   </div>
 
+  <!-- Попап №1 (загрузка фото) -->
   <template id="tpl-upload-popup">
     <section class="popup upload-popup">
       <div class="u-center">
@@ -67,6 +68,99 @@
     </section>
   </template>
 
-  <script src="./app.js?v=20"></script>
+  <!-- Попап №2 (пополнить звёзды) -->
+  <template id="tpl-buy-stars">
+    <section class="popup shop-popup">
+      <div class="shop-header">
+        <img class="shop-header__icon" src="./bgicons/star-header.png"
+             srcset="./bgicons/star-header.png 1x, ./bgicons/star-header@2x.png 2x" alt="">
+        <h3 class="shop-title">Пополнить</h3>
+        <p class="shop-subtitle">Выберите количество звезд</p>
+      </div>
+
+      <div class="card shop-list">
+        <!-- строки — примеры, можешь менять числа/кол-во -->
+        <button class="shop-item" data-amount="25">
+          <span class="shop-item__left">
+            <img src="./bgicons/star-item.png"
+                 srcset="./bgicons/star-item.png 1x, ./bgicons/star-item@2x.png 2x" alt="">
+            <span>25 звезд</span>
+          </span>
+          <span class="shop-item__right">
+            <span class="shop-num">25</span>
+            <img src="./bgicons/earth-item.png"
+                 srcset="./bgicons/earth-item.png 1x, ./bgicons/earth-item@2x.png 2x" alt="">
+          </span>
+        </button>
+
+        <button class="shop-item" data-amount="75">
+          <span class="shop-item__left">
+            <img src="./bgicons/star-item.png"
+                 srcset="./bgicons/star-item.png 1x, ./bgicons/star-item@2x.png 2x" alt="">
+            <span>75 звезд</span>
+          </span>
+          <span class="shop-item__right">
+            <span class="shop-num">75</span>
+            <img src="./bgicons/earth-item.png"
+                 srcset="./bgicons/earth-item.png 1x, ./bgicons/earth-item@2x.png 2x" alt="">
+          </span>
+        </button>
+
+        <button class="shop-item" data-amount="100">
+          <span class="shop-item__left">
+            <img src="./bgicons/star-item.png"
+                 srcset="./bgicons/star-item.png 1x, ./bgicons/star-item@2x.png 2x" alt="">
+            <span>100 звезд</span>
+          </span>
+          <span class="shop-item__right">
+            <span class="shop-num">100</span>
+            <img src="./bgicons/earth-item.png"
+                 srcset="./bgicons/earth-item.png 1x, ./bgicons/earth-item@2x.png 2x" alt="">
+          </span>
+        </button>
+
+        <button class="shop-item" data-amount="250">
+          <span class="shop-item__left">
+            <img src="./bgicons/star-item.png"
+                 srcset="./bgicons/star-item.png 1x, ./bgicons/star-item@2x.png 2x" alt="">
+            <span>250 звезд</span>
+          </span>
+          <span class="shop-item__right">
+            <span class="shop-num">250</span>
+            <img src="./bgicons/earth-item.png"
+                 srcset="./bgicons/earth-item.png 1x, ./bgicons/earth-item@2x.png 2x" alt="">
+          </span>
+        </button>
+
+        <button class="shop-item" data-amount="750">
+          <span class="shop-item__left">
+            <img src="./bgicons/star-item.png"
+                 srcset="./bgicons/star-item.png 1x, ./bgicons/star-item@2x.png 2x" alt="">
+            <span>750 звезд</span>
+          </span>
+          <span class="shop-item__right">
+            <span class="shop-num">750</span>
+            <img src="./bgicons/earth-item.png"
+                 srcset="./bgicons/earth-item.png 1x, ./bgicons/earth-item@2x.png 2x" alt="">
+          </span>
+        </button>
+
+        <button class="shop-item" data-amount="1500">
+          <span class="shop-item__left">
+            <img src="./bgicons/star-item.png"
+                 srcset="./bgicons/star-item.png 1x, ./bgicons/star-item@2x.png 2x" alt="">
+            <span>1500 звезд</span>
+          </span>
+          <span class="shop-item__right">
+            <span class="shop-num">1500</span>
+            <img src="./bgicons/earth-item.png"
+                 srcset="./bgicons/earth-item.png 1x, ./bgicons/earth-item@2x.png 2x" alt="">
+          </span>
+        </button>
+      </div>
+    </section>
+  </template>
+
+  <script src="./app.js?v=22"></script>
 </body>
 </html>
