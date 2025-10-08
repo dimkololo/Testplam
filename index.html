@@ -2,42 +2,37 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <title>Plam — Telegram WebApp</title>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Plam — WebApp</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <link rel="stylesheet" href="./style.css?v=11" />
+  <link rel="stylesheet" href="./style.css?v=20">
 </head>
 <body>
 
-  <!-- СЦЕНА: фон небо+трава -->
-  <main class="scene" aria-label="Главный экран">
-    <div class="scene__bg" aria-hidden="true"></div>
+  <!-- Сцена. Внутри — один адаптивный <picture> с нужным фоном -->
+  <main class="scene">
+    <div class="stage" data-stage>
+      <picture>
+        <!-- large -->
+        <source media="(min-width: 834px)"
+                srcset="./bgicons/bg-large.png 1x, ./bgicons/bg-large@2x.png 2x" />
+        <!-- small -->
+        <source media="(max-width: 360px)"
+                srcset="./bgicons/bg-small.png 1x, ./bgicons/bg-small@2x.png 2x" />
+        <!-- medium (дефолт) -->
+        <img class="stage__img" alt="Main background"
+             src="./bgicons/bg-medium.png"
+             srcset="./bgicons/bg-medium.png 1x, ./bgicons/bg-medium@2x.png 2x">
+      </picture>
 
-    <!-- КЛАСТЕР: ТВ + кресло + пенёк -->
-    <section class="cluster" aria-hidden="true">
-      <img class="cluster__tv"    src="./bgicons/TV.PNG"            alt="" />
-      <img class="cluster__chair" src="./bgicons/Plamonchair.PNG"   alt="" />
-      <img class="cluster__stump" src="./bgicons/stump@2x.PNG"      alt="" />
-    </section>
-
-    <!-- ИКОНКИ по углам -->
-    <img class="icon icon--faq"      src="./bgicons/faq-icon@2x.PNG"      alt="FAQ" />
-    <img class="icon icon--plus"     src="./bgicons/plus-icon@2x.PNG"     alt="Добавить" />
-    <img class="icon icon--notebook" src="./bgicons/notebook@2x.PNG"      alt="Дневник" />
-    <img class="icon icon--gift"     src="./bgicons/gift@2x.PNG"          alt="Подарок" />
-
-    <!-- Хит-зоны -->
-    <button class="hit hit--faq"      aria-label="FAQ"></button>
-    <button class="hit hit--plus"     aria-label="Добавить"></button>
-    <button class="hit hit--notebook" aria-label="Дневник"></button>
-    <button class="hit hit--gift"     aria-label="Подарок"></button>
-
-    <!-- Открытие попапа по пеньку -->
-    <button class="hit hit--stump" data-open-modal="upload-popup" aria-label="Открыть попап загрузки"></button>
+      <!-- Кликабельные зоны (пока нужна только пень) -->
+      <button class="hotspot hotspot--stump"
+              data-open-modal="upload-popup"
+              aria-label="Открыть попап загрузки"></button>
+    </div>
   </main>
 
-  <!-- МОДАЛКА -->
+  <!-- Модалка + Попап №1 как раньше -->
   <div class="modal" data-modal-root hidden aria-hidden="true">
     <div class="modal__backdrop" data-dismiss></div>
     <div class="modal__dialog" role="dialog" aria-modal="true">
@@ -46,22 +41,19 @@
     </div>
   </div>
 
-  <!-- ПОПАП №1 -->
   <template id="tpl-upload-popup">
     <section class="popup upload-popup">
       <div class="u-center">
         <label class="btn-pick" for="file-input">Выбрать фото</label>
         <input id="file-input" type="file" accept="image/*" hidden />
       </div>
-
       <div class="card slider-card">
         <div class="slider-row">
-          <span class="label" data-stars>1 PLAMc</span>
+          <span class="label" data-stars>1 star</span>
           <input class="range" type="range" min="1" max="20" step="1" value="1" />
-          <span class="label" data-secs>1 сек.</span>
+          <span class="label" data-secs>1 sec</span>
         </div>
       </div>
-
       <form class="card form-card" data-upload-form novalidate>
         <input class="field" type="url" name="social" placeholder="...add your social media link" />
         <textarea class="field" name="desc" rows="3" placeholder="...add a description"></textarea>
@@ -72,6 +64,6 @@
     </section>
   </template>
 
-  <script src="./app.js?v=11"></script>
+  <script src="./app.js?v=20"></script>
 </body>
 </html>
