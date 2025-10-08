@@ -59,8 +59,8 @@ function initUploadPopup(){
   if(range && starsEl && secsEl){
     const update = () => {
       const v = parseInt(range.value, 10);
-      starsEl.textContent = `${v} ${plural(v, 'star', 'stars')}`;
-      secsEl.textContent  = `${v} sec`;
+      starsEl.textContent = `${v} ${plural(v, 'PLAMc', 'PLAMc')}`;
+      secsEl.textContent  = `${v} сек`;
     };
     range.addEventListener('input', update);
     update();
