@@ -5,16 +5,11 @@
   --chip:#D9D9D9;
   --popup-bg: rgba(221,221,221,.25);
   --shadow: 0 8px 16px rgba(0,0,0,.25);
-  --radius-popup: 42px;
-  --radius-chip: 35px;
+  --radius-popup:42px;
+  --radius-chip:35px;
   --radius-block:16px;
 
-  /* безопасные отступы Telegram */
-  --safe-top: max(100px, env(safe-area-inset-top, 0px));
-  --safe-bottom: env(safe-area-inset-bottom, 0px);
-  --safe-side: max(24px, env(safe-area-inset-left, 0px));
-
-  /* размеры MEDIUM (по умолчанию) */
+  /* размеры medium (по умолчанию) */
   --w-faq:160px;
   --w-plus:182px;
   --w-tv:260px;
@@ -23,7 +18,8 @@
   --w-notebook:150px;
   --w-gift:112px;
 }
-/* SMALL ≤ 360px */
+
+/* размеры small ≤360px */
 @media (max-width:360px){
   :root{
     --w-faq:120px;
@@ -35,41 +31,20 @@
     --w-gift:75px;
   }
 }
-/* LARGE ≥ 834px */
-@media (min-width:834px){
-  :root{
-    --w-faq:300px;
-    --w-plus:330px;
-    --w-tv:390px;
-    --w-chair:330px;
-    --w-stump:250px;
-    --w-notebook:230px;
-    --w-gift:190px;
-  }
-}
 
-*{box-sizing:border-box}
-html,body{height:100%}
-body{
-  margin:0;
-  color:var(--text);
-  font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;
-  background:var(--bg);
-  overflow:hidden;
-}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:#0f1115;color:var(--text);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif}
 
-/* ===== сцена и фон ===== */
+/* ===== сцена ===== */
 .scene{
   position:relative;
   width:100vw;
   height:100svh;
   overflow:hidden;
   background:#0a0d12;
-  padding-left:var(--safe-side);
-  padding-right:var(--safe-side);
 }
 .scene__bg{
-  position:absolute; inset:0;
+  position:absolute;inset:0;
   background:center/cover no-repeat;
   background-image:url("./bgicons/bg-base.PNG");
   background-image:image-set(
@@ -78,110 +53,109 @@ body{
   );
 }
 
-/* ===== кластер: ТВ + кресло + пенёк ===== */
-.cluster{
-  position:absolute;
-  inset:0;                 /* контейнер на всю сцену */
-  pointer-events:none;
-}
-.cluster > img{
-  position:absolute; display:block; height:auto;
-}
-.cluster>img{position:absolute;display:block;height:auto;}
-.cluster__tv{
-  left:50%;
-  top:50%;
-  transform:translate(-50%, -50%);
-  width: var(--w-tv);
-}
-.cluster__chair{
-  left: calc(50% - 150px);
-  top:  calc(50% + 150px);
-  transform:translate(-50%, -50%);
-  width: var(--w-chair);
-}
-.cluster__stump{
-  left: calc(50% + 150px);
-  top:  calc(50% + 150px);
-  transform:translate(-50%, -50%);
-  width: var(--w-stump);
-}
-
-/* ===== иконки ===== */
+/* ===== все иконки ===== */
 .icon{
   position:absolute;
   display:block;
-  width:auto;height:auto;
-  transform:translate(-50%,-50%);
-  user-select:none;pointer-events:none;
+  height:auto;
+  user-select:none;
+  pointer-events:none;
 }
 
-/* верхние облака */
+/* ===== medium ===== */
 .icon--faq{
-  left:calc(22% + var(--safe-side));
-  top:var(--safe-top);
+  left:10px;
+  top:140px;
   width:var(--w-faq);
-  transform:translate(-50%,-50%);
 }
 .icon--plus{
-  left:calc(78% - var(--safe-side));
-  top:var(--safe-top);
+  right:10px;
+  top:140px;
   width:var(--w-plus);
-  transform:translate(-50%,-50%);
 }
-
-/* нижние кнопки */
+.icon--chair{
+  left:10px;
+  top:380px;
+  width:var(--w-chair);
+}
+.icon--stump{
+  right:10px;
+  top:470px;
+  width:var(--w-stump);
+}
+.icon--tv{
+  left:65px;
+  top:280px;
+  width:var(--w-tv);
+}
 .icon--notebook{
-  left:calc(22% + var(--safe-side));
-  bottom:calc(var(--safe-bottom) + 16px);
+  left:20px;
+  bottom:50px;
   width:var(--w-notebook);
-  transform:translate(-50%,0);
 }
 .icon--gift{
-  left:calc(82% - var(--safe-side));
-  bottom:calc(var(--safe-bottom) + 16px);
+  right:30px;
+  bottom:50px;
   width:var(--w-gift);
-  transform:translate(-50%,0);
 }
 
-/* ===== хит-зоны ===== */
-.hit{
-  position:absolute;border:0;background:transparent;cursor:pointer;
-  transform:translate(-50%,-50%);
+/* ===== small: ≤360px ===== */
+@media (max-width:360px){
+  .icon--faq{
+    left:10px;
+    top:100px;
+    width:var(--w-faq);
+  }
+  .icon--plus{
+    right:10px;
+    top:100px;
+    width:var(--w-plus);
+  }
+  .icon--chair{
+    left:10px;
+    top:220px;
+    width:var(--w-chair);
+  }
+  .icon--stump{
+    right:10px;
+    top:315px;
+    width:var(--w-stump);
+  }
+  .icon--tv{
+    left:65px;
+    top:180px;
+    width:var(--w-tv);
+  }
+  .icon--notebook{
+    left:10px;
+    bottom:20px;
+    width:var(--w-notebook);
+  }
+  .icon--gift{
+    right:10px;
+    bottom:20px;
+    width:var(--w-gift);
+  }
 }
-.hit--faq{
-  left:calc(22% + var(--safe-side));
-  top:var(--safe-top);
-  width:var(--w-faq);
-  aspect-ratio:2.6/1;
-}
-.hit--plus{
-  left:calc(78% - var(--safe-side));
-  top:var(--safe-top);
-  width:var(--w-plus);
-  aspect-ratio:3/1;
-}
-.hit--notebook{
-  left:calc(22% + var(--safe-side));
-  bottom:calc(var(--safe-bottom) + 16px);
-  width:var(--w-notebook);
-  aspect-ratio:1/1;
-  transform:translate(-50%,0);
-}
-.hit--gift{
-  left:calc(82% - var(--safe-side));
-  bottom:calc(var(--safe-bottom) + 16px);
-  width:var(--w-gift);
-  aspect-ratio:1/1;
-  transform:translate(-50%,0);
-}
+
+/* ===== хит-зона пенька ===== */
 .hit--stump{
-  left: calc(50% + 150px);
-  top:  calc(50% + 150px);
-  transform:translate(-50%, -50%);
-  width: var(--w-stump);
-  aspect-ratio: 1.6 / 1;  /* при необходимости подправим */
-  border: 0; background: transparent; cursor: pointer;
+  position:absolute;
+  right:10px;
+  top:470px;
+  width:var(--w-stump);
+  aspect-ratio:1.6/1;
+  background:transparent;
+  border:0;
+  cursor:pointer;
+}
+@media (max-width:360px){
+  .hit--stump{
+    right:10px;
+    top:315px;
+    width:var(--w-stump);
+    aspect-ratio:1.6/1;
+  }
 }
 
 /* ===== модалка ===== */
@@ -207,7 +181,7 @@ body{
   display:inline-flex;align-items:center;justify-content:center;
   width:clamp(206px,90%,360px);height:56px;
   border-radius:var(--radius-chip);
-  font-size:18px;font-weight:700;border:0;cursor:pointer;user-select:none;
+  font-size:18px;font-weight:700;border:0;cursor:pointer;user-select:none
 }
 .btn-pick{background:var(--chip);color:#000;border:1px solid rgba(0,0,0,.06)}
 .btn-submit{background:var(--accent);color:#fff;box-shadow:0 6px 14px rgba(255,115,0,.25)}
@@ -222,7 +196,3 @@ body{
 .field{width:100%;padding:14px 16px;border-radius:16px;border:1px solid rgba(0,0,0,.08);background:#fff;color:#111;font:16px/1.4 inherit}
 .field::placeholder{color:#9aa3b2;opacity:.8}
 .field:focus{outline:2px solid rgba(255,115,0,.35)}
-@media (max-width:340px){
-  .btn-pick,.btn-submit{width:clamp(190px,92%,320px);height:52px}
-}
-html,body{overflow-x:hidden}
