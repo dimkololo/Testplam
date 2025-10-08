@@ -2,11 +2,11 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Plam — Telegram WebApp</title>
 
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <link rel="stylesheet" href="./style.css?v=9" />
+  <link rel="stylesheet" href="./style.css?v=11" />
 </head>
 <body>
 
@@ -14,43 +14,41 @@
   <main class="scene" aria-label="Главный экран">
     <div class="scene__bg" aria-hidden="true"></div>
 
-    <!-- Декоративные большие элементы фона (отдельные PNG) -->
-    <img class="bgicon bgicon--tv" src="./bgicons/TV.PNG" alt="" aria-hidden="true" />
-    <img class="bgicon bgicon--chair" src="./bgicons/Plamonchair.PNG" alt="" aria-hidden="true" />
+    <!-- КЛАСТЕР: ТВ + кресло + пенёк -->
+    <section class="cluster" aria-hidden="true">
+      <img class="cluster__tv"    src="./bgicons/TV.PNG"            alt="" />
+      <img class="cluster__chair" src="./bgicons/Plamonchair.PNG"   alt="" />
+      <img class="cluster__stump" src="./bgicons/stump@2x.PNG"      alt="" />
+    </section>
 
-    <!-- Видимые иконки (резкие, отдельные 2x) -->
-    <img class="icon icon--faq"      src="./faq-icon@2x.PNG"        alt="FAQ" />
-    <img class="icon icon--plus"     src="./plus-icon@2x.PNG"       alt="Добавить" />
-    <img class="icon icon--gift"     src="./gift@2x.PNG"            alt="Подарок" />
-    <img class="icon icon--notebook" src="./notebook@2x.PNG"        alt="Дневник" />
-    <img class="icon icon--stump"    src="./stump@2x.PNG"           alt="" aria-hidden="true" />
+    <!-- ИКОНКИ по углам -->
+    <img class="icon icon--faq"      src="./bgicons/faq-icon@2x.PNG"      alt="FAQ" />
+    <img class="icon icon--plus"     src="./bgicons/plus-icon@2x.PNG"     alt="Добавить" />
+    <img class="icon icon--notebook" src="./bgicons/notebook@2x.PNG"      alt="Дневник" />
+    <img class="icon icon--gift"     src="./bgicons/gift@2x.PNG"          alt="Подарок" />
 
-    <!-- Хит-зоны (кликабельные кнопки) -->
+    <!-- Хит-зоны -->
     <button class="hit hit--faq"      aria-label="FAQ"></button>
     <button class="hit hit--plus"     aria-label="Добавить"></button>
-    <button class="hit hit--gift"     aria-label="Подарки"></button>
     <button class="hit hit--notebook" aria-label="Дневник"></button>
+    <button class="hit hit--gift"     aria-label="Подарок"></button>
 
-    <!-- ПЕНЁК: открывает попап №1 -->
-    <button
-      class="hit hit--stump"
-      data-open-modal="upload-popup"
-      aria-label="Открыть попап загрузки"
-    ></button>
+    <!-- Открытие попапа по пеньку -->
+    <button class="hit hit--stump" data-open-modal="upload-popup" aria-label="Открыть попап загрузки"></button>
   </main>
 
   <!-- МОДАЛКА -->
   <div class="modal" data-modal-root hidden aria-hidden="true">
     <div class="modal__backdrop" data-dismiss></div>
-    <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal__dialog" role="dialog" aria-modal="true">
       <button class="modal__close" type="button" aria-label="Закрыть" data-dismiss>×</button>
       <div class="modal__content" data-modal-content></div>
     </div>
   </div>
 
-  <!-- ПОПАП №1: загрузка фото -->
+  <!-- ПОПАП №1 -->
   <template id="tpl-upload-popup">
-    <section class="popup upload-popup" aria-labelledby="modal-title">
+    <section class="popup upload-popup">
       <div class="u-center">
         <label class="btn-pick" for="file-input">Выбрать фото</label>
         <input id="file-input" type="file" accept="image/*" hidden />
@@ -59,7 +57,7 @@
       <div class="card slider-card">
         <div class="slider-row">
           <span class="label" data-stars>1 star</span>
-          <input class="range" type="range" min="1" max="20" step="1" value="1" aria-label="Stars / Seconds" />
+          <input class="range" type="range" min="1" max="20" step="1" value="1" />
           <span class="label" data-secs>1 sec</span>
         </div>
       </div>
@@ -74,6 +72,6 @@
     </section>
   </template>
 
-  <script src="./app.js?v=9"></script>
+  <script src="./app.js?v=11"></script>
 </body>
 </html>
