@@ -1,85 +1,110 @@
-/* ===============================
+/* =========================================
    БАЗА
-=================================*/
+========================================= */
 :root{
   --bg:#0f1115;
   --text:#e7eaf0;
-  --muted:#a7b0c0;
-
   --accent:#FF7300;
-  --chip:#D9D9D9;
-  --popup-bg: rgba(221,221,221,.25);
+
+  --chip:#D9D9D9;                     /* капсулы */
+  --popup-bg: rgba(221,221,221,.25);  /* окно попапа */
   --shadow: 0 8px 16px rgba(0,0,0,.25);
+
   --radius-popup: 42px;
   --radius-chip: 35px;
   --radius-block:16px;
 }
 *{box-sizing:border-box}
-html, body{ height:100% }
+html,body{height:100%}
 body{
-  margin:0;
-  background:var(--bg);
-  color:var(--text);
+  margin:0; color:var(--text);
   font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;
-  overflow:hidden;
+  background:var(--bg);
+  overflow:hidden; /* сцена всегда 100% без скролла */
 }
 
-/* ===============================
-   СЦЕНА (на весь экран без обрезки фона)
-=================================*/
+/* =========================================
+   СЦЕНА: фон только небо+трава
+========================================= */
 .scene{
   position:relative;
   width:100vw;
-  height:100vh;
-  height:100svh;              /* безопасная высота на iOS */
+  height:100svh;          /* безопасная высота на iOS */
   overflow:hidden;
-  touch-action:manipulation;
-  background:#0a0d12;         /* подложка по краям, если картинка «letterbox» */
+  background:#0a0d12;
 }
 .scene__bg{
   position:absolute; inset:0;
-  background-position:center center;
+  background-position:center;
   background-repeat:no-repeat;
-  /* Главное: показываем картинку целиком */
-  background-size:contain;
-
-  /* фон по умолчанию (средние устройства) */
-  background-image:url("./Plam_assets/popups/iphone-16-1@1x-800.png");
+  background-size:cover;  /* фон можно заполнять */
+  background-image: image-set(
+    url("./bg-base.PNG") 1x,
+    url("./bg-base@2x.PNG") 2x
+  );
 }
 
-/* маленькие экраны ≤360px — другой фон */
-@media (max-width: 360px) {
-  .scene__bg{
-    background-image:url("./Plam_assets/popups/bg-small.png");
-  }
+/* =========================================
+   ФОНОВЫЕ БОЛЬШИЕ ОБЪЕКТЫ (как декоративные <img>)
+========================================= */
+.bgicon{ position:absolute; display:block; user-select:none; pointer-events:none; }
+.bgicon--tv{
+  left:50%; top:43%;
+  transform:translate(-50%, -50%);
+  width:clamp(220px, 55vw, 560px);
+  height:auto;
+}
+.bgicon--chair{
+  left:20%; bottom:8%;
+  transform:translate(-50%, 0);
+  width:clamp(120px, 22vw, 260px);
+  height:auto;
 }
 
-/* большие экраны ≥834px — iPad Pro 11" и шире */
-@media (min-width: 834px) {
-  .scene__bg{
-    background-image:url("./Plam_assets/popups/bg-large.png");
-  }
+/* =========================================
+   ВИДИМЫЕ ИКОНКИ (FAQ, PLUS, GIFT, NOTEBOOK, STUMP)
+   png @2x — выглядят чётко на ретине
+========================================= */
+.icon{
+  position:absolute; display:block; width:auto; height:auto;
+  transform:translate(-50%, -50%);
+  user-select:none; pointer-events:none; /* кликаем по .hit */
 }
+/* приблизительные позиции под текущую сцену — при нужде подправим процентами */
+.icon--faq      { left:18%; top:10%; width:clamp(44px, 12vw, 88px); }
+.icon--plus     { left:82%; top:10%; width:clamp(44px, 12vw, 88px); }
+.icon--gift     { left:82%; top:87%; width:clamp(72px, 18vw, 150px); }
+.icon--notebook { left:20%; top:87%; width:clamp(72px, 18vw, 150px); }
+.icon--stump    { left:72%; top:64%; width:clamp(120px, 28vw, 260px); }
 
-/* Хотспоты (останутся относительными к всей сцене) */
-.hotspot{
-  position:absolute; border:0; padding:0; background:transparent; cursor:pointer; outline:none;
+/* =========================================
+   ХИТ-ЗОНЫ (кнопки поверх иконок)
+========================================= */
+.hit{
+  position:absolute; border:0; background:transparent; cursor:pointer;
+  transform:translate(-50%, -50%);
 }
-.hotspot:focus-visible{ box-shadow:0 0 0 3px rgba(255,140,0,.6); border-radius:12px }
-/* зона пенька — при contain может «съехать»; при необходимости подправь проценты */
-.hotspot--stump{ left:58%; top:57%; width:26%; height:20% }
-/* .hotspot{ background:rgba(255,0,0,.12) } */
+/* размеры зон — чуть больше визуальных PNG, чтобы комфортно нажимать */
+.hit--faq      { left:18%; top:10%; width:clamp(52px, 14vw, 100px); height:clamp(36px, 10vw, 72px); }
+.hit--plus     { left:82%; top:10%; width:clamp(52px, 14vw, 100px); height:clamp(36px, 10vw, 72px); }
+.hit--gift     { left:82%; top:87%; width:clamp(84px, 20vw, 170px); height:clamp(84px, 20vw, 170px); }
+.hit--notebook { left:20%; top:87%; width:clamp(84px, 20vw, 170px); height:clamp(84px, 20vw, 170px); }
+.hit--stump    { left:72%; top:64%; width:clamp(140px, 30vw, 280px); height:clamp(100px, 26vw, 210px); }
 
-/* ===============================
+/* Для отладки включи:
+.hit{ outline:2px dashed rgba(255,140,0,.7); background:rgba(255,140,0,.12); }
+*/
+
+/* =========================================
    МОДАЛКА
-=================================*/
+========================================= */
 .modal{ position:fixed; inset:0; z-index:1000; display:grid; place-items:center }
 .modal[hidden]{ display:none }
 .modal__backdrop{ position:absolute; inset:0; background:rgba(0,0,0,.5) }
 
 .modal__dialog{
   position:relative;
-  width: min(560px, calc(100vw - 24px));
+  width:min(560px, calc(100vw - 24px));
   max-width:560px;
   margin:0 auto;
   border-radius:var(--radius-popup);
@@ -97,55 +122,37 @@ body{
   border:0; background:transparent; color:#fff; font-size:20px; cursor:pointer;
 }
 
-/* ===============================
-   ПОПАП
-=================================*/
+/* =========================================
+   ПОПАП №1
+========================================= */
 .popup{
   display:grid; gap:12px; justify-items:center;
-  width:100%;
-  max-width:420px;
-  margin-inline:auto;
+  width:100%; max-width:420px; margin-inline:auto;
 }
-@media (min-width: 834px){
-  .popup{ max-width:420px }
-}
-
 .u-center{ display:flex; justify-content:center; width:100%; }
 
-/* Кнопки одинакового размера */
+/* Кнопки одинаковых габаритов и шрифта */
 .btn-pick, .btn-submit{
   display:inline-flex; align-items:center; justify-content:center;
   width: clamp(206px, 90%, 360px);
   height:56px;
   border-radius:var(--radius-chip);
-  font-weight:800;
-  cursor:pointer; user-select:none;
-  border:0;
+  font-size:18px; font-weight:700;
+  cursor:pointer; user-select:none; border:0;
 }
-.btn-pick{
-  background:var(--chip); color:#000; border:1px solid rgba(0,0,0,.06); font-weight:700;
-}
-.btn-submit{
-  background:var(--accent);
-  color:#fff;
-  font-size:18px;       /* <-- добавили размер шрифта */
-  font-weight:700;      /* <-- сделали жирность как у "Выбрать фото" */
-  box-shadow:0 6px 14px rgba(255,115,0,.25);
-}
-/* Карточки */
+.btn-pick{ background:var(--chip); color:#000; border:1px solid rgba(0,0,0,.06); }
+.btn-submit{ background:var(--accent); color:#fff; box-shadow:0 6px 14px rgba(255,115,0,.25); }
+
+/* Карточки-капсулы */
 .card{
-  width:100%;
-  background:var(--chip);
+  width:100%; background:var(--chip);
   border-radius:var(--radius-block);
-  padding:12px;
-  border:1px solid rgba(0,0,0,.06);
+  padding:12px; border:1px solid rgba(0,0,0,.06);
 }
 
-/* СЛАЙДЕР */
-.slider-card{ padding:14px 14px }
-.slider-row{
-  display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:12px;
-}
+/* Слайдер */
+.slider-card{ padding:14px }
+.slider-row{ display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:12px }
 .label{ color:#000; font-weight:700; opacity:.75 }
 
 .range{
@@ -154,24 +161,18 @@ body{
 }
 .range::-webkit-slider-thumb{
   -webkit-appearance:none; appearance:none;
-  width:18px; height:18px; border-radius:50%;
-  background:var(--accent); border:1px solid #fff; cursor:pointer;
+  width:18px; height:18px; border-radius:50%; background:var(--accent); border:1px solid #fff; cursor:pointer;
 }
 .range::-moz-range-thumb{
-  width:18px; height:18px; border-radius:50%;
-  background:var(--accent); border:1px solid #fff; cursor:pointer;
+  width:18px; height:18px; border-radius:50%; background:var(--accent); border:1px solid #fff; cursor:pointer;
 }
 
 /* Поля */
 .form-card{ display:grid; gap:10px; padding:14px }
 .field{
-  width:100%;
-  padding:14px 16px;
-  border-radius:16px;
-  border:1px solid rgba(0,0,0,.08);
-  background:#FFFFFF;
-  color:#111;
-  font:16px/1.4 inherit;
+  width:100%; padding:14px 16px;
+  border-radius:16px; border:1px solid rgba(0,0,0,.08);
+  background:#fff; color:#111; font:16px/1.4 inherit;
 }
 .field::placeholder{ color:#9aa3b2; opacity:.8 }
 .field:focus{ outline:2px solid rgba(255,115,0,.35) }
@@ -180,4 +181,4 @@ body{
   .btn-pick, .btn-submit { width: clamp(190px, 92%, 320px); height:52px }
 }
 
-html, body { overflow-x:hidden }
+html,body{ overflow-x:hidden }
