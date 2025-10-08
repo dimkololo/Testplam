@@ -9,20 +9,54 @@
   --radius-chip: 35px;
   --radius-block:16px;
 
-  /* Безопасные отступы для телеграма/чёлки */
-  --safe-top: max(80px, calc(env(safe-area-inset-top, 16px) + 16px));
-  --safe-bottom: calc(env(safe-area-inset-bottom, 16px) + 16px);
+  /* безопасные отступы Telegram/чёлка */
+  --safe-top: max(100px, env(safe-area-inset-top, 0px));
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+
+  /* ===== размеры (MEDIUM по умолчанию) ===== */
+  --w-faq:136px;
+  --w-plus:182px;        /* облако со звездой */
+  --w-tv:260px;
+  --w-chair:190px;
+  --w-stump:178px;
+  --w-notebook:150px;
+  --w-gift:112px;
 }
+/* SMALL (например ≤ 360px) */
+@media (max-width:360px){
+  :root{
+    --w-faq:98px;
+    --w-plus:134px;
+    --w-tv:190px;
+    --w-chair:150px;
+    --w-stump:130px;
+    --w-notebook:100px;
+    --w-gift:75px;
+  }
+}
+/* LARGE (например iPad Pro 11" и шире) */
+@media (min-width:834px){
+  :root{
+    --w-faq:240px;
+    --w-plus:330px;
+    --w-tv:390px;
+    --w-chair:330px;
+    --w-stump:250px;
+    --w-notebook:230px;
+    --w-gift:190px;
+  }
+}
+
 *{box-sizing:border-box}
 html,body{height:100%}
 body{
   margin:0; color:var(--text);
   font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;
-  background:var(--bg);
+  background:#0f1115;
   overflow:hidden;
 }
 
-/* СЦЕНА + ФОН (только небо/трава из ./bgicons/) */
+/* СЦЕНА + ФОН (./bgicons/) */
 .scene{
   position:relative;
   width:100vw;
@@ -33,7 +67,6 @@ body{
 .scene__bg{
   position:absolute; inset:0;
   background:center/cover no-repeat;
-  /* fallback и HiDPI */
   background-image:url("./bgicons/bg-base.PNG");
   background-image:image-set(
     url("./bgicons/bg-base.PNG") 1x,
@@ -42,105 +75,107 @@ body{
 }
 
 /* ===== КЛАСТЕР: ТВ + кресло + пенёк =====
-   Центруем и масштабируем вместе, как в макете */
+   ширина кластера рассчитывается от размера ТВ */
 .cluster{
   position:absolute; left:50%; top:58%;
   transform:translate(-50%,-50%);
-  width: clamp(300px, 88vw, 820px); /* крупнее, ближе к макету */
-  aspect-ratio: 16/10;              /* виртуальная площадка */
+  width: calc(var(--w-tv) * 2.6);  /* площадка под три элемента */
+  aspect-ratio: 16/10;
   pointer-events:none;
 }
 .cluster > img{ position:absolute; display:block; height:auto; }
 
-/* ТВ — центр композиции, крупнее */
+/* ТВ — центр композиции */
 .cluster__tv{
   left:50%; top:42%;
   transform:translate(-50%,-50%);
-  width: 60%;
+  width: var(--w-tv);
 }
-/* Кресло — заметно левее и ниже */
+/* Кресло — слева ниже */
 .cluster__chair{
   left:28%; top:78%;
   transform:translate(-50%,-50%);
-  width: 33%;
+  width: var(--w-chair);
 }
-/* Пенёк — правее и ниже ТВ */
+/* Пенёк — справа ниже */
 .cluster__stump{
   left:78%; top:75%;
   transform:translate(-50%,-50%);
-  width: 28%;
+  width: var(--w-stump);
 }
 
-/* ===== ИКОНКИ по углам (FAQ/плюс/книга/подарок) ===== */
+/* ===== ИКОНКИ по углам ===== */
 .icon{
   position:absolute; display:block; width:auto; height:auto;
   transform:translate(-50%,-50%);
   user-select:none; pointer-events:none;
 }
-
-/* ВЕРХНИЕ ОБЛАКА: гарантированный отступ ≥80px */
-.icon--faq,
+/* Верхние облака: гарантированный отступ >=100px */
+.icon--faq{
+  left:22%; top: var(--safe-top);
+  transform:translate(-50%,-50%);
+  width: var(--w-faq);
+}
 .icon--plus{
-  top: var(--safe-top);             /* минимум 80px, иначе 8vh+safe */
-  transform: translate(-50%, -50%);
-  /* Размеры ближе к макету: крупные облака */
-  width: clamp(120px, 38vw, 200px);
+  left:78%; top: var(--safe-top);
+  transform:translate(-50%,-50%);
+  width: var(--w-plus);
 }
-.icon--faq  { left: 22%; }
-.icon--plus { left: 78%; }
-
-/* Нижние кнопки: большие значки у краёв поля */
-.icon--notebook,
+/* Нижние: от нижнего края */
+.icon--notebook{
+  left:22%; bottom: calc(var(--safe-bottom) + 16px);
+  transform:translate(-50%,0);
+  width: var(--w-notebook);
+}
 .icon--gift{
-  bottom: var(--safe-bottom);
-  transform: translate(-50%, 0);   /* выравниваем от низа */
-  width: clamp(110px, 30vw, 220px);
+  left:82%; bottom: calc(var(--safe-bottom) + 16px);
+  transform:translate(-50%,0);
+  width: var(--w-gift);
 }
-.icon--notebook{ left: 22%; }
-.icon--gift    { left: 82%; }
 
-/* ===== ХИТ-ЗОНЫ (кликабельные) ===== */
+/* ===== ХИТ-ЗОНЫ (кнопки) ===== */
 .hit{
   position:absolute; border:0; background:transparent; cursor:pointer;
   transform:translate(-50%,-50%);
 }
-/* Совпадают с иконками, плюс небольшая “подушка” */
+
+/* Облака — зона соответствует размерам */
 .hit--faq{
-  left:22%;
-  top: var(--safe-top);
-  transform: translate(-50%, -50%);
-  width: clamp(130px, 42vw, 220px);
-  height: clamp(48px, 14vw, 88px);
+  left:22%; top: var(--safe-top);
+  transform:translate(-50%,-50%);
+  width: var(--w-faq);
+  aspect-ratio: 2.6 / 1;   /* приблизительное соотношение облака */
 }
 .hit--plus{
-  left:78%;
-  top: var(--safe-top);
-  transform: translate(-50%, -50%);
-  width: clamp(130px, 42vw, 220px);
-  height: clamp(48px, 14vw, 88px);
-}
-.hit--notebook{
-  left:22%;
-  bottom: var(--safe-bottom);
-  transform: translate(-50%, 0);
-  width: clamp(120px, 34vw, 240px);
-  height: clamp(90px, 24vw, 200px);
-}
-.hit--gift{
-  left:82%;
-  bottom: var(--safe-bottom);
-  transform: translate(-50%, 0);
-  width: clamp(120px, 34vw, 240px);
-  height: clamp(90px, 24vw, 200px);
-}
-/* Пенёк — зона клика по пеньку в кластере */
-.hit--stump{
-  left:78%; top:75%;
-  width: clamp(140px, 30vw, 280px);
-  height: clamp(100px, 24vw, 210px);
+  left:78%; top: var(--safe-top);
+  transform:translate(-50%,-50%);
+  width: var(--w-plus);
+  aspect-ratio: 3 / 1;     /* облако+звезда шире */
 }
 
-/* ===== МОДАЛКА ===== */
+/* Дневник/подарок — снизу, почти квадратные */
+.hit--notebook{
+  left:22%; bottom: calc(var(--safe-bottom) + 16px);
+  transform:translate(-50%,0);
+  width: var(--w-notebook);
+  aspect-ratio: 1 / 1;
+}
+.hit--gift{
+  left:82%; bottom: calc(var(--safe-bottom) + 16px);
+  transform:translate(-50%,0);
+  width: var(--w-gift);
+  aspect-ratio: 1 / 1;
+}
+
+/* ПЕНЁК — кликабельная область строго по тем же координатам и ширине,
+   что и картинка пенька (теперь одинаково на всех устройствах) */
+.hit--stump{
+  left:78%; top:75%;
+  width: var(--w-stump);
+  aspect-ratio: 1.6 / 1; /* прямоугольник, чуть шире высоты; можно подстроить */
+}
+
+/* ====== МОДАЛКА (без изменений) ====== */
 .modal{ position:fixed; inset:0; z-index:1000; display:grid; place-items:center }
 .modal[hidden]{ display:none }
 .modal__backdrop{ position:absolute; inset:0; background:rgba(0,0,0,.5) }
@@ -156,7 +191,7 @@ body{
 .modal__content{ max-height:calc(100svh - 60px); overflow-y:auto; overflow-x:hidden }
 .modal__close{ position:absolute; top:10px; left:10px; border:0; background:transparent; color:#fff; font-size:20px; cursor:pointer }
 
-/* ===== ПОПАП №1 ===== */
+/* ====== ПОПАП №1 (как раньше) ====== */
 .popup{ display:grid; gap:12px; justify-items:center; width:100%; max-width:420px; margin-inline:auto }
 .u-center{ display:flex; justify-content:center; width:100% }
 .btn-pick,.btn-submit{
