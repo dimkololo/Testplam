@@ -35,7 +35,7 @@ body{
 }
 .scene__bg{
   position:absolute; inset:0;
-  background-image: url("../Plam_assets/popups/iphone-16-1@1x-800.png");
+  background-image: url("./Plam_assets/popups/iphone-16-1@1x-800.png");
   background-size:cover;       /* меняй на contain, если нужен полный обзор */
   background-position:center;
 }
