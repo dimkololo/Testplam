@@ -2,22 +2,21 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Plam — Telegram WebApp</title>
 
-  <!-- Telegram WebApp SDK -->
+  <!-- Telegram WebApp SDK (по желанию, можно оставить подключенным) -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-  <!-- Подключение стилей -->
-  <link rel="stylesheet" href="./style.css?v=1">
+  <link rel="stylesheet" href="./style.css?v=3" />
 </head>
 <body>
 
-  <!-- ===== Главный экран ===== -->
+  <!-- Главная сцена на весь экран -->
   <main class="scene" aria-label="Главный экран">
-    <div class="scene__bg" role="img" aria-label="Фон главного экрана"></div>
+    <div class="scene__bg" role="img" aria-label="Фон"></div>
 
-    <!-- Кликабельная зона пенька -->
+    <!-- хотспот: пенёк + табличка + красная кнопка -->
     <button
       class="hotspot hotspot--stump"
       data-open-modal="upload-popup"
@@ -25,8 +24,7 @@
     ></button>
   </main>
 
-
-  <!-- ===== Универсальная модалка ===== -->
+  <!-- Модалка -->
   <div class="modal" data-modal-root hidden aria-hidden="true">
     <div class="modal__backdrop" data-dismiss></div>
     <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="modal-title">
@@ -35,40 +33,38 @@
     </div>
   </div>
 
-
-  <!-- ===== ШАБЛОН ПОПАПА №1 (выбрать фото) ===== -->
+  <!-- Попап №1 -->
   <template id="tpl-upload-popup">
-    <section class="popup upload-popup div">
-      <!-- Кнопка выбора фото -->
-      <label class="div2" for="file-input">
-        <span class="div3">Выбрать фото</span>
+    <section class="popup upload-popup" aria-labelledby="modal-title">
+      <!-- Кнопка Выбрать фото -->
+      <div class="u-center">
+        <label class="btn-pick" for="file-input">Выбрать фото</label>
         <input id="file-input" type="file" accept="image/*" hidden />
-      </label>
-
-      <!-- Слайдер -->
-      <div class="div4">
-        <div class="_1-star" data-stars>1 star</div>
-        <input class="range" type="range" min="1" max="20" step="1" value="1" aria-label="Stars / Seconds" />
-        <div class="_1-sec" data-secs>1 sec</div>
       </div>
 
-      <!-- Поля ввода -->
-      <form class="div5" data-upload-form novalidate>
-        <input class="rectangle-12 input" type="url" name="social"
-               data-ph="...add your social media link"
+      <!-- Блок слайдера -->
+      <div class="card slider-card">
+        <div class="slider-row">
+          <span class="label" data-stars>1 star</span>
+          <input class="range" type="range" min="1" max="20" step="1" value="1" aria-label="Stars / Seconds" />
+          <span class="label" data-secs>1 sec</span>
+        </div>
+      </div>
+
+      <!-- Единый блок для двух полей -->
+      <form class="card form-card" data-upload-form novalidate>
+        <input class="field" type="url" name="social"
                placeholder="...add your social media link" />
-        <textarea class="rectangle-13 textarea" name="desc" rows="3"
-                  data-ph="...add a description"
+        <textarea class="field" name="desc" rows="3"
                   placeholder="...add a description"></textarea>
 
-        <!-- Кнопка отправки -->
-        <button type="submit" class="div6 btn-primary">
-          <span class="div7">Отправить</span>
-        </button>
+        <div class="u-center">
+          <button type="submit" class="btn-submit">Отправить</button>
+        </div>
       </form>
     </section>
   </template>
 
- <script src="./app.js?v=1"></script>
+  <script src="./app.js?v=3"></script>
 </body>
 </html>
