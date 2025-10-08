@@ -13,18 +13,21 @@
   <main class="scene">
     <div class="stage" data-stage>
       <picture>
-        <!-- large -->
-        <source media="(min-width: 834px)"
-                srcset="./bgicons/bg-large.png 1x, ./bgicons/bg-large@2x.png 2x" />
-        <!-- small -->
-        <source media="(max-width: 360px)"
-                srcset="./bgicons/bg-small.png 1x, ./bgicons/bg-small@2x.png 2x" />
-        <!-- medium (дефолт) -->
-        <img class="stage__img" alt="Main background"
-             src="./bgicons/bg-medium.png"
-             srcset="./bgicons/bg-medium.png 1x, ./bgicons/bg-medium@2x.png 2x">
-      </picture>
+  <!-- LARGE: планшеты и большие телефоны в портрете -->
+  <source
+    media="(min-height: 1024px), (min-width: 768px)"
+    srcset="./bgicons/bg-large.png 1x, ./bgicons/bg-large@2x.png 2x" />
 
+  <!-- SMALL: очень маленькие экраны -->
+  <source
+    media="(max-width: 360px), (max-height: 640px)"
+    srcset="./bgicons/bg-small.png 1x, ./bgicons/bg-small@2x.png 2x" />
+
+  <!-- MEDIUM (дефолт) -->
+  <img class="stage__img" alt="Main background"
+       src="./bgicons/bg-medium.png"
+       srcset="./bgicons/bg-medium.png 1x, ./bgicons/bg-medium@2x.png 2x">
+</picture>
       <!-- Кликабельные зоны (пока нужна только пень) -->
       <button class="hotspot hotspot--stump"
               data-open-modal="upload-popup"
