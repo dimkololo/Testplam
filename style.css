@@ -81,28 +81,30 @@ body{
 /* ===== кластер: ТВ + кресло + пенёк ===== */
 .cluster{
   position:absolute;
-  left:50%;
-  top:50%;
-  transform:translate(-50%,0); /* нижний край ТВ по центру */
-  width:calc(var(--w-tv) * 2.6);
-  aspect-ratio:16/10;
+  inset:0;                 /* контейнер на всю сцену */
   pointer-events:none;
+}
+.cluster > img{
+  position:absolute; display:block; height:auto;
 }
 .cluster>img{position:absolute;display:block;height:auto;}
 .cluster__tv{
-  left:50%;bottom:0;
-  transform:translate(-50%,0);
-  width:var(--w-tv);
+  left:50%;
+  top:50%;
+  transform:translate(-50%, -50%);
+  width: var(--w-tv);
 }
 .cluster__chair{
-  left:28%;bottom:calc(var(--w-tv)*0.15);
-  transform:translate(-50%,0);
-  width:var(--w-chair);
+  left: calc(50% - 150px);
+  top:  calc(50% + 150px);
+  transform:translate(-50%, -50%);
+  width: var(--w-chair);
 }
 .cluster__stump{
-  left:78%;bottom:calc(var(--w-tv)*0.1);
-  transform:translate(-50%,0);
-  width:var(--w-stump);
+  left: calc(50% + 150px);
+  top:  calc(50% + 150px);
+  transform:translate(-50%, -50%);
+  width: var(--w-stump);
 }
 
 /* ===== иконки ===== */
@@ -160,4 +162,67 @@ body{
   aspect-ratio:3/1;
 }
 .hit--notebook{
-  left:calc(22% + v
+  left:calc(22% + var(--safe-side));
+  bottom:calc(var(--safe-bottom) + 16px);
+  width:var(--w-notebook);
+  aspect-ratio:1/1;
+  transform:translate(-50%,0);
+}
+.hit--gift{
+  left:calc(82% - var(--safe-side));
+  bottom:calc(var(--safe-bottom) + 16px);
+  width:var(--w-gift);
+  aspect-ratio:1/1;
+  transform:translate(-50%,0);
+}
+.hit--stump{
+  left: calc(50% + 150px);
+  top:  calc(50% + 150px);
+  transform:translate(-50%, -50%);
+  width: var(--w-stump);
+  aspect-ratio: 1.6 / 1;  /* при необходимости подправим */
+  border: 0; background: transparent; cursor: pointer;
+}
+
+/* ===== модалка ===== */
+.modal{position:fixed;inset:0;z-index:1000;display:grid;place-items:center}
+.modal[hidden]{display:none}
+.modal__backdrop{position:absolute;inset:0;background:rgba(0,0,0,.5)}
+.modal__dialog{
+  position:relative;
+  width:min(560px,calc(100vw - 24px));
+  max-width:560px;
+  border-radius:var(--radius-popup);
+  background:var(--popup-bg);
+  box-shadow:var(--shadow);
+  padding:18px 16px 22px;
+}
+.modal__content{max-height:calc(100svh - 60px);overflow-y:auto;overflow-x:hidden}
+.modal__close{position:absolute;top:10px;left:10px;border:0;background:transparent;color:#fff;font-size:20px;cursor:pointer}
+
+/* ===== попап №1 ===== */
+.popup{display:grid;gap:12px;justify-items:center;width:100%;max-width:420px;margin-inline:auto}
+.u-center{display:flex;justify-content:center;width:100%}
+.btn-pick,.btn-submit{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:clamp(206px,90%,360px);height:56px;
+  border-radius:var(--radius-chip);
+  font-size:18px;font-weight:700;border:0;cursor:pointer;user-select:none;
+}
+.btn-pick{background:var(--chip);color:#000;border:1px solid rgba(0,0,0,.06)}
+.btn-submit{background:var(--accent);color:#fff;box-shadow:0 6px 14px rgba(255,115,0,.25)}
+.card{width:100%;background:var(--chip);border-radius:var(--radius-block);padding:12px;border:1px solid rgba(0,0,0,.06)}
+.slider-card{padding:14px}
+.slider-row{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px}
+.label{color:#000;font-weight:700;opacity:.75}
+.range{-webkit-appearance:none;appearance:none;width:100%;height:16px;border-radius:200px;background:#D0D0D0;outline:none}
+.range::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:18px;height:18px;border-radius:50%;background:var(--accent);border:1px solid #fff;cursor:pointer}
+.range::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--accent);border:1px solid #fff;cursor:pointer}
+.form-card{display:grid;gap:10px;padding:14px}
+.field{width:100%;padding:14px 16px;border-radius:16px;border:1px solid rgba(0,0,0,.08);background:#fff;color:#111;font:16px/1.4 inherit}
+.field::placeholder{color:#9aa3b2;opacity:.8}
+.field:focus{outline:2px solid rgba(255,115,0,.35)}
+@media (max-width:340px){
+  .btn-pick,.btn-submit{width:clamp(190px,92%,320px);height:52px}
+}
+html,body{overflow-x:hidden}
