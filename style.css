@@ -66,34 +66,40 @@ body{
    МОДАЛКА
 =================================*/
 .modal[hidden]{display:none}
-.modal{ position:fixed; inset:0; z-index:1000; display:grid; place-items:center }
-.modal__backdrop{ position:absolute; inset:0; background:rgba(0,0,0,.5) } /* 50% */
+.modal{
+  position:fixed; inset:0; z-index:1000;
+  display:grid; place-items:center;
+}
+.modal__backdrop{ position:absolute; inset:0; background:rgba(0,0,0,.5) }
 .modal__dialog{
   position:relative;
-  width:min(92vw, 420px); /* универсальный контейнер + запас */
+  /* было: width:min(92vw, 420px) */
+  width: min(420px, calc(100vw - 24px));   /* влезает в экран с боковыми полями */
   max-width:420px;
   margin:0 auto;
   border-radius:var(--radius-popup);
   background:var(--popup-bg);
   box-shadow:var(--shadow);
-  backdrop-filter:saturate(120%) blur(0px); /* без блюра, референс так и выглядит */
   padding:18px 16px 22px;
 }
 .modal__close{
   position:absolute; top:10px; left:10px;
   border:0; background:transparent; color:#fff; font-size:20px; cursor:pointer;
 }
-.modal__content{ max-height:calc(100dvh - 60px); overflow:auto }
+.modal__content{
+  max-height:calc(100dvh - 60px);
+  overflow-y:auto;          /* только вертикальный скролл при необходимости */
+  overflow-x:hidden;        /* горизонтальный запрещён */
+}
 
 /* Контент попапа */
 .popup{
-  display:grid;
-  gap:12px;
-  justify-items:center;
-  /* Ширина по референсу: 360px на средних, но адаптив на мелких */
-  width: min(360px, 86vw);
+  display:grid; gap:12px; justify-items:center;
+  width:100%;              /* вписываемся в диалог */
+  max-width:360px;         /* твоя базовая ширина */
   margin-inline:auto;
 }
+
 
 /* Вспомогательный центр */
 .u-center{ display:flex; justify-content:center }
@@ -101,21 +107,18 @@ body{
 /* Кнопка “Выбрать фото” */
 .btn-pick{
   display:inline-flex; align-items:center; justify-content:center;
-  width:206px; height:56px;
+  width:min(206px, 100%);  /* было: фикс. 206 */
+  height:56px;
   background:var(--chip); color:#000; font-weight:700;
   border-radius:var(--radius-chip);
   border:1px solid rgba(0,0,0,.06);
   cursor:pointer; user-select:none;
 }
 
+
 /* Карточки-капсулы */
-.card{
-  width:100%;
-  background:var(--chip);
-  border-radius:var(--radius-block);
-  padding:12px;
-  border:1px solid rgba(0,0,0,.06);
-}
+.card{ width:100%; background:var(--chip); border-radius:var(--radius-block);
+       padding:12px; border:1px solid rgba(0,0,0,.06); }
 
 /* СЛАЙДЕР */
 .slider-card{ padding:14px 14px }
@@ -155,7 +158,8 @@ body{
 /* Кнопка Отправить */
 .btn-submit{
   display:inline-flex; align-items:center; justify-content:center;
-  width:206px; height:56px;
+  width:min(206px, 100%);  /* было: фикс. 206 */
+  height:56px;
   background:var(--accent); color:#fff; font-weight:800;
   border-radius:var(--radius-chip);
   border:0; cursor:pointer;
