@@ -126,9 +126,12 @@ body{
   background:var(--chip); color:#000; border:1px solid rgba(0,0,0,.06); font-weight:700;
 }
 .btn-submit{
-  background:var(--accent); color:#fff; box-shadow:0 6px 14px rgba(255,115,0,.25);
+  background:var(--accent);
+  color:#fff;
+  font-size:18px;       /* <-- добавили размер шрифта */
+  font-weight:700;      /* <-- сделали жирность как у "Выбрать фото" */
+  box-shadow:0 6px 14px rgba(255,115,0,.25);
 }
-
 /* Карточки */
 .card{
   width:100%;
