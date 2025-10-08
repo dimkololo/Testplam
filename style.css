@@ -48,7 +48,7 @@ body{
 @media (max-width: 360px) {
   .scene__bg{
     /* пример: ./Plam_assets/screens/bg-small.png — положи файл сюда */
-    background-image:url("./Plam_assets/screens/bg-small.png");
+    background-image:url("./Plam_assets/popups/bg-small.png");
     background-size:cover;
   }
 }
