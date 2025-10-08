@@ -1,4 +1,4 @@
-// Telegram WebApp (опционально)
+// Telegram WebApp (необязательно, но ок)
 if (window.Telegram && window.Telegram.WebApp) {
   try { window.Telegram.WebApp.expand(); } catch(e) {}
 }
@@ -21,6 +21,7 @@ function openModal(id){
   modalRoot.setAttribute('aria-hidden','false');
   ScrollLock.lock();
   if(id === 'upload-popup') initUploadPopup();
+  if(id === 'buy-stars') initBuyStars();
 }
 function closeModal(){
   modalRoot.hidden = true;
@@ -47,9 +48,6 @@ function initUploadPopup(){
   const btnPick = root.querySelector('.btn-pick');
   if(btnPick && fileInput){
     btnPick.addEventListener('click', () => fileInput.click());
-    fileInput.addEventListener('change', () => {
-      if(fileInput.files?.length){ console.log('Выбрано фото:', fileInput.files[0].name); }
-    });
   }
 
   const range = root.querySelector('.range');
@@ -59,8 +57,8 @@ function initUploadPopup(){
   if(range && starsEl && secsEl){
     const update = () => {
       const v = parseInt(range.value, 10);
-      starsEl.textContent = `${v} ${plural(v, 'PLAMc', 'PLAMc')}`;
-      secsEl.textContent  = `${v} сек`;
+      starsEl.textContent = `${v} ${plural(v, 'star', 'stars')}`;
+      secsEl.textContent  = `${v} sec`;
     };
     range.addEventListener('input', update);
     update();
@@ -71,12 +69,45 @@ function initUploadPopup(){
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       const data = Object.fromEntries(new FormData(form).entries());
-      console.log('Submit:', data);
-      if (window.Telegram && window.Telegram.WebApp) {
-        try { window.Telegram.WebApp.sendData(JSON.stringify(data)); } catch(_) {}
+      console.log('Upload form submit:', data);
+      if (window.Telegram?.WebApp) {
+        try { window.Telegram.WebApp.sendData(JSON.stringify({type:'upload', ...data})); } catch(_) {}
       }
       closeModal();
     });
   }
 }
-console.log('App ready');
+
+// Попап №2 (звёзды)
+function initBuyStars(){
+  const root = modalRoot.querySelector('.shop-popup');
+  if(!root) return;
+
+  root.querySelectorAll('.shop-item').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const amount = btn.dataset.amount;
+      console.log('Buy stars:', amount);
+      if (window.Telegram?.WebApp) {
+        try { window.Telegram.WebApp.sendData(JSON.stringify({type:'buyStars', amount})); } catch(_) {}
+      }
+      closeModal();
+    });
+  });
+}
+
+// (опционально) подстраховка выбора фона по реальным размерам
+(function ensureCorrectBackground() {
+  const img = document.querySelector('.stage__img');
+  if (!img) return;
+  const w = window.innerWidth, h = window.innerHeight;
+  if (h >= 1024 || w >= 768) {
+    img.src = './bgicons/bg-large.png';
+    img.srcset = './bgicons/bg-large.png 1x, ./bgicons/bg-large@2x.png 2x';
+  } else if (w <= 360 || h <= 640) {
+    img.src = './bgicons/bg-small.png';
+    img.srcset = './bgicons/bg-small.png 1x, ./bgicons/bg-small@2x.png 2x';
+  } else {
+    img.src = './bgicons/bg-medium.png';
+    img.srcset = './bgicons/bg-medium.png 1x, ./bgicons/bg-medium@2x.png 2x';
+  }
+})();
