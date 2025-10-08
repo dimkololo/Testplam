@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Plam — WebApp</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <link rel="stylesheet" href="./style.css?v=22">
+  <link rel="stylesheet" href="./style.css?v=23">
 </head>
 <body>
 
@@ -71,16 +71,17 @@
   <!-- Попап №2 (пополнить звёзды) -->
   <template id="tpl-buy-stars">
     <section class="popup shop-popup">
-      <div class="shop-header">
+      <!-- Верхняя плашка -->
+      <div class="chip shop-header">
         <img class="shop-header__icon" src="./bgicons/star-header.png"
              srcset="./bgicons/star-header.png 1x, ./bgicons/star-header@2x.png 2x" alt="">
         <h3 class="shop-title">Пополнить</h3>
         <p class="shop-subtitle">Выберите количество звезд</p>
       </div>
 
-      <div class="card shop-list">
-        <!-- строки — примеры, можешь менять числа/кол-во -->
-        <button class="shop-item" data-amount="25">
+      <!-- Список плашек-строк (каждая — отдельная) -->
+      <div class="shop-list">
+        <button class="chip shop-item" data-amount="25">
           <span class="shop-item__left">
             <img src="./bgicons/star-item.png"
                  srcset="./bgicons/star-item.png 1x, ./bgicons/star-item@2x.png 2x" alt="">
@@ -93,7 +94,7 @@
           </span>
         </button>
 
-        <button class="shop-item" data-amount="75">
+        <button class="chip shop-item" data-amount="75">
           <span class="shop-item__left">
             <img src="./bgicons/star-item.png"
                  srcset="./bgicons/star-item.png 1x, ./bgicons/star-item@2x.png 2x" alt="">
@@ -106,7 +107,7 @@
           </span>
         </button>
 
-        <button class="shop-item" data-amount="100">
+        <button class="chip shop-item" data-amount="100">
           <span class="shop-item__left">
             <img src="./bgicons/star-item.png"
                  srcset="./bgicons/star-item.png 1x, ./bgicons/star-item@2x.png 2x" alt="">
@@ -119,7 +120,7 @@
           </span>
         </button>
 
-        <button class="shop-item" data-amount="250">
+        <button class="chip shop-item" data-amount="250">
           <span class="shop-item__left">
             <img src="./bgicons/star-item.png"
                  srcset="./bgicons/star-item.png 1x, ./bgicons/star-item@2x.png 2x" alt="">
@@ -132,7 +133,7 @@
           </span>
         </button>
 
-        <button class="shop-item" data-amount="750">
+        <button class="chip shop-item" data-amount="750">
           <span class="shop-item__left">
             <img src="./bgicons/star-item.png"
                  srcset="./bgicons/star-item.png 1x, ./bgicons/star-item@2x.png 2x" alt="">
@@ -145,7 +146,7 @@
           </span>
         </button>
 
-        <button class="shop-item" data-amount="1500">
+        <button class="chip shop-item" data-amount="1500">
           <span class="shop-item__left">
             <img src="./bgicons/star-item.png"
                  srcset="./bgicons/star-item.png 1x, ./bgicons/star-item@2x.png 2x" alt="">
@@ -161,6 +162,6 @@
     </section>
   </template>
 
-  <script src="./app.js?v=22"></script>
+  <script src="./app.js?v=23"></script>
 </body>
 </html>
