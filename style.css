@@ -122,7 +122,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);
 /* ===== Попап №2 — магазин ===== */
 .shop-header{
   width:100%;
-  min-height:200px;          /* как просила */
+  min-height:150px;          /* как просила */
   display:grid;
   place-items:center;
   gap:4px;
