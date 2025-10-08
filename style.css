@@ -1,351 +1,130 @@
-/* ===============================
-   БАЗОВЫЕ ПЕРЕМЕННЫЕ
-=============================== */
-:root {
-  --bg: #0f1115;
-  --text: #e7eaf0;
-  --accent: #FF7300;
-  --chip: #D9D9D9;
+/* ===== База ===== */
+:root{
   --popup-bg: rgba(221,221,221,.25);
-  --shadow: 0 8px 16px rgba(0,0,0,.25);
-  --radius-popup: 42px;
-  --radius-chip: 35px;
-  --radius-block: 16px;
+  --chip:#D9D9D9;
+  --accent:#FF7300;
+  --shadow:0 8px 16px rgba(0,0,0,.25);
+  --radius-popup:42px; --radius-chip:35px; --radius-block:16px;
 
-  /* размеры для СРЕДНИХ устройств */
-  --w-faq: 170px;
-  --w-plus: 170px;
-  --w-tv: 260px;
-  --w-chair: 190px;
-  --w-stump: 160px;
-  --w-notebook: 150px;
-  --w-gift: 112px;
+  /* размеры оригинальных макетов (px) */
+  --mw: 393;  --mh: 853;    /* medium */
+  --sw: 320;  --sh: 568;    /* small  (пример) */
+  --lw: 834;  --lh: 1194;   /* large  (пример: iPad Pro 11" портрет) */
+
+  /* координаты пня в пикселях (ЦЕНТР!!!) относительно макета medium */
+  --stump-x-m: 294; /* = 393 - 10 (отступ справа) - 178/2 */
+  --stump-y-m: 526; /* = 470 (отступ сверху) + (178/1.6)/2 ≈ 526 */
+  /* small */
+  --stump-x-s: 255; /* под small-фон: аналогично пересчитано */
+  --stump-y-s: 380;
+  /* large (пока наследуем из medium; подставим точные позже при желании) */
+  --stump-x-l: 624;
+  --stump-y-l: 780;
 }
 
-/* размеры для МАЛЕНЬКИХ устройств (≤ 360px) */
-@media (max-width: 360px) {
-  :root {
-    --w-faq: 120px;
-    --w-plus: 120px;
-    --w-tv: 190px;
-    --w-chair: 130px;
-    --w-stump: 110px;
-    --w-notebook: 90px;
-    --w-gift: 65px;
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; background:#0f1115; color:#e7eaf0;
+  font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;
+  overflow:hidden;
+}
+
+/* ===== Сцена / Стейдж ===== */
+.scene{
+  width:100vw; height:100svh; display:grid; place-items:center;
+  background:#0a0d12;
+}
+.stage{
+  position:relative;
+  /* Контейнер подстраивается под картинку, без обрезаний */
+  display:inline-block;
+  max-width:100vw; max-height:100svh;
+}
+.stage__img{
+  display:block;
+  max-width:100vw; max-height:100svh;
+  width:auto; height:auto;
+  /* Важно: сохраняем целиком картинку (без кропа) */
+  object-fit:contain;
+}
+
+/* ===== Хот-споты, привязанные к координатам изображения ===== */
+.hotspot{
+  position:absolute; transform:translate(-50%,-50%);
+  border:0; background:transparent; cursor:pointer;
+}
+
+/* Medium (по умолчанию). Размеры рассчитываем в % от реального рендера. */
+.stage{
+  --design-w: var(--mw);
+  --design-h: var(--mh);
+}
+.hotspot--stump{
+  /* координаты из макета -> проценты */
+  left: calc(var(--stump-x-m) / var(--design-w) * 100%);
+  top:  calc(var(--stump-y-m) / var(--design-h) * 100%);
+  width: calc(178 / var(--design-w) * 100%);          /* ширина пня из макета */
+  height: calc((178 / 1.6) / var(--design-h) * 100%); /* высота по соотношению ~1.6:1 */
+}
+
+/* Small (≤360px) */
+@media (max-width:360px){
+  .stage{ --design-w: var(--sw); --design-h: var(--sh); }
+  .hotspot--stump{
+    left: calc(var(--stump-x-s) / var(--design-w) * 100%);
+    top:  calc(var(--stump-y-s) / var(--design-h) * 100%);
+    width: calc(130 / var(--design-w) * 100%);
+    height: calc((130 / 1.6) / var(--design-h) * 100%);
   }
 }
 
-/* ===============================
-   ГЛОБАЛЬНЫЕ НАСТРОЙКИ
-=============================== */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-html, body {
-  height: 100%;
-  overflow: hidden;
-  background: var(--bg);
-  color: var(--text);
-  font: 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
-}
-
-/* ===============================
-   СЦЕНА И ФОН
-=============================== */
-.scene {
-  position: relative;
-  width: 100vw;
-  height: 100svh;
-  overflow: hidden;
-  background: #0a0d12;
-}
-.scene__bg {
-  position: absolute;
-  inset: 0;
-  background: center/cover no-repeat;
-  background-image: url("./bgicons/bg-base.PNG");
-  background-image: image-set(
-    url("./bgicons/bg-base.PNG") 1x,
-    url("./bgicons/bg-base@2x.PNG") 2x
-  );
-}
-
-/* ===============================
-   ЭЛЕМЕНТЫ СЦЕНЫ
-=============================== */
-.icon, .cluster > img {
-  position: absolute;
-  display: block;
-  height: auto;
-  user-select: none;
-  pointer-events: none;
-}
-
-/* ====== СРЕДНИЕ УСТРОЙСТВА ====== */
-
-/* облако FAQ */
-.icon--faq {
-  left: 10px;
-  top: 120px;
-  width: var(--w-faq);
-}
-
-/* облако с плюсиком */
-.icon--plus {
-  right: 10px;
-  top: 120px;
-  width: var(--w-plus);
-}
-
-/* телевизор */
-.cluster__tv {
-  left: 65px;
-  top: 280px;
-  width: var(--w-tv);
-}
-
-/* человек в кресле */
-.cluster__chair {
-  left: 10px;
-  top: 380px;
-  width: var(--w-chair);
-}
-
-/* пенёк с кнопкой */
-.cluster__stump {
-  right: 10px;
-  top: 470px;
-  width: var(--w-stump);
-}
-
-/* дневник */
-.icon--notebook {
-  left: 20px;
-  bottom: 50px;
-  width: var(--w-notebook);
-}
-
-/* подарок */
-.icon--gift {
-  right: 30px;
-  bottom: 50px;
-  width: var(--w-gift);
-}
-
-/* ====== МАЛЕНЬКИЕ УСТРОЙСТВА ====== */
-@media (max-width: 360px) {
-
-  .icon--faq {
-    left: 10px;
-    top: 20px;
-    width: var(--w-faq);
-  }
-
-  .icon--plus {
-    right: 10px;
-    top: 20px;
-    width: var(--w-plus);
-  }
-
-  .cluster__tv {
-    left: 65px;
-    top: 50px;
-    width: var(--w-tv);
-  }
-
-  .cluster__chair {
-    left: 10px;
-    top: 100px;
-    width: var(--w-chair);
-  }
-
-  .cluster__stump {
-    right: 10px;
-    top: 100px;
-    width: var(--w-stump);
-  }
-
-  .icon--notebook {
-    left: 10px;
-    bottom: 10px;
-    width: var(--w-notebook);
-  }
-
-  .icon--gift {
-    right: 10px;
-    bottom: 10px;
-    width: var(--w-gift);
+/* Large (≥834px) — можно позже подставить точные, пока берём medium-скейл */
+@media (min-width:834px){
+  .stage{ --design-w: var(--lw); --design-h: var(--lh); }
+  .hotspot--stump{
+    left: calc(var(--stump-x-l) / var(--design-w) * 100%);
+    top:  calc(var(--stump-y-l) / var(--design-h) * 100%);
+    width: calc(250 / var(--design-w) * 100%);
+    height: calc((250 / 1.6) / var(--design-h) * 100%);
   }
 }
 
-/* ===============================
-   ХИТ-ЗОНА ПЕНЬКА
-=============================== */
-.hit--stump {
-  position: absolute;
-  right: 10px;
-  top: 470px;
-  width: var(--w-stump);
-  aspect-ratio: 1.6 / 1;
-  background: transparent;
-  border: 0;
-  cursor: pointer;
+/* ===== Модалка / Попап №1 — как раньше ===== */
+.modal{ position:fixed; inset:0; z-index:1000; display:grid; place-items:center }
+.modal[hidden]{ display:none }
+.modal__backdrop{ position:absolute; inset:0; background:rgba(0,0,0,.5) }
+.modal__dialog{
+  position:relative;
+  width:min(560px, calc(100vw - 24px));
+  max-width:560px;
+  border-radius:var(--radius-popup);
+  background:var(--popup-bg);
+  box-shadow:var(--shadow);
+  padding:18px 16px 22px;
 }
-@media (max-width: 360px) {
-  .hit--stump {
-    right: 10px;
-    top: 100px;
-    width: var(--w-stump);
-    aspect-ratio: 1.6 / 1;
-  }
-}
+.modal__content{ max-height:calc(100svh - 60px); overflow:auto hidden }
+.modal__close{ position:absolute; top:10px; left:10px; border:0; background:transparent; color:#fff; font-size:20px; cursor:pointer }
 
-/* ===============================
-   МОДАЛКА
-=============================== */
-.modal {
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
-  display: grid;
-  place-items: center;
+.popup{ display:grid; gap:12px; justify-items:center; width:100%; max-width:420px }
+.u-center{ display:flex; justify-content:center; width:100% }
+.btn-pick,.btn-submit{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:clamp(206px,90%,360px); height:56px; border-radius:var(--radius-chip);
+  font-size:18px; font-weight:700; border:0; cursor:pointer; user-select:none
 }
-.modal[hidden] { display: none; }
-.modal__backdrop {
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,.5);
-}
-.modal__dialog {
-  position: relative;
-  width: min(560px, calc(100vw - 24px));
-  max-width: 560px;
-  border-radius: var(--radius-popup);
-  background: var(--popup-bg);
-  box-shadow: var(--shadow);
-  padding: 18px 16px 22px;
-}
-.modal__content {
-  max-height: calc(100svh - 60px);
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-.modal__close {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  border: 0;
-  background: transparent;
-  color: #fff;
-  font-size: 20px;
-  cursor: pointer;
-}
+.btn-pick{ background:var(--chip); color:#000; border:1px solid rgba(0,0,0,.06) }
+.btn-submit{ background:var(--accent); color:#fff; box-shadow:0 6px 14px rgba(255,115,0,.25) }
 
-/* ===============================
-   ПОПАП №1
-=============================== */
-.popup {
-  display: grid;
-  gap: 12px;
-  justify-items: center;
-  width: 100%;
-  max-width: 420px;
-  margin-inline: auto;
-}
-.u-center {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-}
-.btn-pick, .btn-submit {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: clamp(206px, 90%, 360px);
-  height: 56px;
-  border-radius: var(--radius-chip);
-  font-size: 18px;
-  font-weight: 700;
-  border: 0;
-  cursor: pointer;
-  user-select: none;
-}
-.btn-pick {
-  background: var(--chip);
-  color: #000;
-  border: 1px solid rgba(0,0,0,.06);
-}
-.btn-submit {
-  background: var(--accent);
-  color: #fff;
-  box-shadow: 0 6px 14px rgba(255,115,0,.25);
-}
-.card {
-  width: 100%;
-  background: var(--chip);
-  border-radius: var(--radius-block);
-  padding: 12px;
-  border: 1px solid rgba(0,0,0,.06);
-}
-.slider-card { padding: 14px; }
-.slider-row {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: center;
-  gap: 12px;
-}
-.label {
-  color: #000;
-  font-weight: 700;
-  opacity: .75;
-}
-.range {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 100%;
-  height: 16px;
-  border-radius: 200px;
-  background: #D0D0D0;
-  outline: none;
-}
-.range::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: var(--accent);
-  border: 1px solid #fff;
-  cursor: pointer;
-}
-.range::-moz-range-thumb {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: var(--accent);
-  border: 1px solid #fff;
-  cursor: pointer;
-}
-.form-card {
-  display: grid;
-  gap: 10px;
-  padding: 14px;
-}
-.field {
-  width: 100%;
-  padding: 14px 16px;
-  border-radius: 16px;
-  border: 1px solid rgba(0,0,0,.08);
-  background: #fff;
-  color: #111;
-  font: 16px/1.4 inherit;
-}
-.field::placeholder {
-  color: #9aa3b2;
-  opacity: .8;
-}
-.field:focus {
-  outline: 2px solid rgba(255,115,0,.35);
-}
+.card{ width:100%; background:var(--chip); border-radius:var(--radius-block); padding:12px; border:1px solid rgba(0,0,0,.06) }
+.slider-card{ padding:14px }
+.slider-row{ display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:12px }
+.label{ color:#000; font-weight:700; opacity:.75 }
+.range{ -webkit-appearance:none; appearance:none; width:100%; height:16px; border-radius:200px; background:#D0D0D0; outline:none }
+.range::-webkit-slider-thumb{ -webkit-appearance:none; appearance:none; width:18px; height:18px; border-radius:50%; background:var(--accent); border:1px solid #fff; cursor:pointer }
+.range::-moz-range-thumb{ width:18px; height:18px; border-radius:50%; background:var(--accent); border:1px solid #fff; cursor:pointer }
+
+.form-card{ display:grid; gap:10px; padding:14px }
+.field{ width:100%; padding:14px 16px; border-radius:16px; border:1px solid rgba(0,0,0,.08); background:#fff; color:#111; font:16px/1.4 inherit }
+.field::placeholder{ color:#9aa3b2; opacity:.8 }
+.field:focus{ outline:2px solid rgba(255,115,0,.35) }
