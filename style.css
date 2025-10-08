@@ -17,7 +17,7 @@
   --w-plus: 170px;
   --w-tv: 260px;
   --w-chair: 190px;
-  --w-stump: 178px;
+  --w-stump: 160px;
   --w-notebook: 150px;
   --w-gift: 112px;
 }
@@ -28,10 +28,10 @@
     --w-faq: 120px;
     --w-plus: 120px;
     --w-tv: 190px;
-    --w-chair: 150px;
-    --w-stump: 130px;
-    --w-notebook: 100px;
-    --w-gift: 75px;
+    --w-chair: 130px;
+    --w-stump: 110px;
+    --w-notebook: 90px;
+    --w-gift: 65px;
   }
 }
 
@@ -139,43 +139,43 @@ html, body {
 
   .icon--faq {
     left: 10px;
-    top: 50px;
+    top: 20px;
     width: var(--w-faq);
   }
 
   .icon--plus {
     right: 10px;
-    top: 50px;
+    top: 20px;
     width: var(--w-plus);
   }
 
   .cluster__tv {
     left: 65px;
-    top: 100px;
+    top: 50px;
     width: var(--w-tv);
   }
 
   .cluster__chair {
     left: 10px;
-    top: 150px;
+    top: 100px;
     width: var(--w-chair);
   }
 
   .cluster__stump {
     right: 10px;
-    top: 150px;
+    top: 100px;
     width: var(--w-stump);
   }
 
   .icon--notebook {
     left: 10px;
-    bottom: 20px;
+    bottom: 10px;
     width: var(--w-notebook);
   }
 
   .icon--gift {
     right: 10px;
-    bottom: 20px;
+    bottom: 10px;
     width: var(--w-gift);
   }
 }
@@ -196,7 +196,7 @@ html, body {
 @media (max-width: 360px) {
   .hit--stump {
     right: 10px;
-    top: 150px;
+    top: 100px;
     width: var(--w-stump);
     aspect-ratio: 1.6 / 1;
   }
