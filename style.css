@@ -145,3 +145,27 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);
 .shop-item__right img{width:22px;height:auto}
 .shop-num{min-width:36px;text-align:right}
 .shop-item:hover{filter:brightness(.98)}
+/* ===== Адаптив для маленьких устройств ===== */
+@media (max-width: 360px), (max-height: 640px) {
+  .shop-header {
+    min-height: 100px;   /* вместо 150 px */
+    padding: 10px 8px;   /* чуть меньше внутренние отступы */
+  }
+  .shop-header__icon {
+    width: 40px;         /* звезда сверху поменьше */
+  }
+  .shop-title {
+    font-size: 18px;
+  }
+  .shop-subtitle {
+    font-size: 12px;
+  }
+  .shop-item {
+    padding: 10px 12px;  /* немного уменьшить высоту строк */
+  }
+  .shop-item__left img,
+  .shop-item__right img {
+    width: 18px;         /* иконки звезды/планеты тоже чуть меньше */
+  }
+}
+
