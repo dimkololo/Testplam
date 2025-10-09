@@ -1,10 +1,12 @@
-/* ===== Глобальные переменные ===== */
+/* ===============================
+   ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ
+=============================== */
 :root{
   --bg:#0f1115;
   --text:#e7eaf0;
   --accent:#FF7300;
-  --chip:#D9D9D9;            /* цвет плашек */
-  --popup-bg: rgba(221,221,221,.25); /* прозрачный фон диалога */
+  --chip:#D9D9D9;                  /* цвет плашек */
+  --popup-bg:rgba(221,221,221,.25);/* прозрачный фон диалога */
   --shadow:0 8px 16px rgba(0,0,0,.25);
   --radius-popup:42px;
   --radius-chip:35px;
@@ -15,7 +17,7 @@
   --sw:320; --sh:568;         /* small */
   --lw:834; --lh:1194;        /* large */
 
-  /* ПЕНЁК — центр и расширенная зона (включая табличку) */
+  /* координаты центра пня (с расширенной зоной) */
   --stump-x-m:294; --stump-y-m:526;
   --stump-x-s:255; --stump-y-s:380;
   --stump-x-l:624; --stump-y-l:780;
@@ -23,34 +25,72 @@
   --hot-w-s:250; --hot-h-s:100; --hot-off-x-s:-70;
   --hot-w-l:480; --hot-h-l:190; --hot-off-x-l:-120;
 
-  /* ПЛЮС-ОБЛАКО (центр и размеры клика) */
+  /* координаты облака с плюсом */
   --plus-x-m:292; --plus-y-m:170; --plus-w-m:200; --plus-h-m:90;
   --plus-x-s:243; --plus-y-s:122; --plus-w-s:150; --plus-h-s:70;
   --plus-x-l:620; --plus-y-l:210; --plus-w-l:360; --plus-h-l:150;
 }
 
-/* ===== Сброс ===== */
+/* ===============================
+   ОБЩИЕ СТИЛИ
+=============================== */
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);
-  font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif}
+html,body{
+  height:100%;
+  overflow:hidden;
+  background:var(--bg);
+  color:var(--text);
+  font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;
+}
 
-/* ===== Сцена и фон ===== */
-.scene{position:relative;width:100vw;height:100svh;overflow:hidden;display:grid;place-items:center;background:#0a0d12}
-.stage{position:relative;display:inline-block;max-width:100vw;max-height:100svh}
-.stage__img{display:block;max-width:100vw;max-height:100svh;width:auto;height:auto;object-fit:contain}
+/* ===============================
+   СЦЕНА (фон)
+=============================== */
+.scene{
+  position:relative;
+  width:100vw;
+  height:100svh;
+  overflow:hidden;
+  display:grid;
+  place-items:center;
+  background:#0a0d12;
+}
+.stage{
+  position:relative;
+  display:inline-block;
+  max-width:100vw;
+  max-height:100svh;
+}
+.stage__img{
+  display:block;
+  max-width:100vw;
+  max-height:100svh;
+  width:auto;
+  height:auto;
+  object-fit:contain;
+}
 
-/* ===== Хот-споты ===== */
-.stage{ --design-w: var(--mw); --design-h: var(--mh); }
-.hotspot{position:absolute;transform:translate(-50%,-50%);border:0;background:transparent;cursor:pointer}
+/* ===============================
+   КЛИКАБЕЛЬНЫЕ ЗОНЫ
+=============================== */
+.stage{--design-w:var(--mw);--design-h:var(--mh);}
+.hotspot{
+  position:absolute;
+  transform:translate(-50%,-50%);
+  border:0;
+  background:transparent;
+  cursor:pointer;
+}
 
-/* ПЕНЁК (medium) */
+/* Пенёк (medium) */
 .hotspot--stump{
   left:calc((var(--stump-x-m)+var(--hot-off-x-m))/var(--design-w)*100%);
   top:calc(var(--stump-y-m)/var(--design-h)*100%);
   width:calc(var(--hot-w-m)/var(--design-w)*100%);
   height:calc(var(--hot-h-m)/var(--design-h)*100%);
 }
-/* ПЛЮС-ОБЛАКО (medium) */
+
+/* Облако с плюсом (medium) */
 .hotspot--plus{
   left:calc(var(--plus-x-m)/var(--design-w)*100%);
   top:calc(var(--plus-y-m)/var(--design-h)*100%);
@@ -58,9 +98,9 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);
   height:calc(var(--plus-h-m)/var(--design-h)*100%);
 }
 
-/* SMALL */
+/* Small */
 @media (max-width:360px){
-  .stage{ --design-w: var(--sw); --design-h: var(--sh); }
+  .stage{--design-w:var(--sw);--design-h:var(--sh);}
   .hotspot--stump{
     left:calc((var(--stump-x-s)+var(--hot-off-x-s))/var(--design-w)*100%);
     top:calc(var(--stump-y-s)/var(--design-h)*100%);
@@ -75,9 +115,9 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);
   }
 }
 
-/* LARGE */
-@media (min-width:768px), (min-height:1024px){
-  .stage{ --design-w: var(--lw); --design-h: var(--lh); }
+/* Large */
+@media (min-width:768px),(min-height:1024px){
+  .stage{--design-w:var(--lw);--design-h:var(--lh);}
   .hotspot--stump{
     left:calc((var(--stump-x-l)+var(--hot-off-x-l))/var(--design-w)*100%);
     top:calc(var(--stump-y-l)/var(--design-h)*100%);
@@ -92,80 +132,224 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);
   }
 }
 
-/* ===== Модалка ===== */
-.modal{position:fixed;inset:0;z-index:1000;display:grid;place-items:center}
+/* ===============================
+   МОДАЛКА
+=============================== */
+.modal{
+  position:fixed;
+  inset:0;
+  z-index:1000;
+  display:grid;
+  place-items:center;
+}
 .modal[hidden]{display:none}
-.modal__backdrop{position:absolute;inset:0;background:rgba(0,0,0,.5)}
-.modal__dialog{position:relative;width:min(560px,calc(100vw - 24px));max-width:560px;border-radius:var(--radius-popup);background:var(--popup-bg);box-shadow:var(--shadow);padding:18px 16px 22px}
-.modal__content{max-height:calc(100svh - 60px);overflow:auto hidden}
-.modal__close{position:absolute;top:10px;left:10px;border:0;background:transparent;color:#fff;font-size:20px;cursor:pointer}
+.modal__backdrop{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.5);
+}
+.modal__dialog{
+  position:relative;
+  width:min(560px,calc(100vw - 24px));
+  max-width:560px;
+  border-radius:var(--radius-popup);
+  background:var(--popup-bg);
+  box-shadow:var(--shadow);
+  padding:18px 16px 22px;
+}
+.modal__content{
+  max-height:calc(100svh - 60px);
+  overflow:auto hidden;
+}
+.modal__close{
+  position:absolute;
+  top:10px;
+  left:10px;
+  border:0;
+  background:transparent;
+  color:#fff;
+  font-size:20px;
+  cursor:pointer;
+}
 
-/* ===== Общие элементы попапов ===== */
-.popup{display:grid;gap:12px;justify-items:center;width:100%;max-width:420px;margin-inline:auto}
-.u-center{display:flex;justify-content:center;width:100%}
-.chip{background:var(--chip);border:1px solid rgba(0,0,0,.06);border-radius:16px}
-.btn-pick,.btn-submit{display:inline-flex;align-items:center;justify-content:center;width:clamp(206px,90%,360px);height:56px;border-radius:var(--radius-chip);font-size:18px;font-weight:700;border:0;cursor:pointer;user-select:none}
-.btn-pick{background:var(--chip);color:#000;border:1px solid rgba(0,0,0,.06)}
-.btn-submit{background:var(--accent);color:#fff;box-shadow:0 6px 14px rgba(255,115,0,.25)}
-.card{width:100%;background:var(--chip);border-radius:var(--radius-block);padding:12px;border:1px solid rgba(0,0,0,.06)}
-.slider-card{padding:14px}
-.slider-row{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px}
-.label{color:#000;font-weight:700;opacity:.75}
-.range{-webkit-appearance:none;appearance:none;width:100%;height:16px;border-radius:200px;background:#D0D0D0;outline:none}
-.range::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:18px;height:18px;border-radius:50%;background:var(--accent);border:1px solid #fff;cursor:pointer}
-.range::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--accent);border:1px solid #fff;cursor:pointer}
-.form-card{display:grid;gap:10px;padding:14px}
-.field{width:100%;padding:14px 16px;border-radius:16px;border:1px solid rgba(0,0,0,.08);background:#fff;color:#111;font:16px/1.4 inherit}
-.field::placeholder{color:#9aa3b2;opacity:.8}
-.field:focus{outline:2px solid rgba(255,115,0,.35)}
+/* ===============================
+   ПОПАП №1 (ЗАГРУЗКА ФОТО)
+=============================== */
+.popup{
+  display:grid;
+  gap:12px;
+  justify-items:center;
+  width:100%;
+  max-width:420px;
+  margin-inline:auto;
+}
+.u-center{
+  display:flex;
+  justify-content:center;
+  width:100%;
+}
+.chip{
+  background:var(--chip);
+  border:1px solid rgba(0,0,0,.06);
+  border-radius:16px;
+}
+.btn-pick,
+.btn-submit{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:clamp(206px,90%,360px);
+  height:56px;
+  border-radius:var(--radius-chip);
+  font-size:18px;
+  font-weight:700;
+  border:0;
+  cursor:pointer;
+  user-select:none;
+}
+.btn-pick{
+  background:var(--chip);
+  color:#000;
+  border:1px solid rgba(0,0,0,.06);
+}
+.btn-submit{
+  background:var(--accent);
+  color:#fff;
+  box-shadow:0 6px 14px rgba(255,115,0,.25);
+}
+.card{
+  width:100%;
+  background:var(--chip);
+  border-radius:var(--radius-block);
+  padding:12px;
+  border:1px solid rgba(0,0,0,.06);
+}
+.slider-card{padding:14px;}
+.slider-row{
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  align-items:center;
+  gap:12px;
+}
+.label{
+  color:#000;
+  font-weight:700;
+  opacity:.75;
+}
+.range{
+  -webkit-appearance:none;
+  appearance:none;
+  width:100%;
+  height:16px;
+  border-radius:200px;
+  background:#D0D0D0;
+  outline:none;
+}
+.range::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  appearance:none;
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  background:var(--accent);
+  border:1px solid #fff;
+  cursor:pointer;
+}
+.range::-moz-range-thumb{
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  background:var(--accent);
+  border:1px solid #fff;
+  cursor:pointer;
+}
+.form-card{
+  display:grid;
+  gap:10px;
+  padding:14px;
+}
+.field{
+  width:100%;
+  padding:14px 16px;
+  border-radius:16px;
+  border:1px solid rgba(0,0,0,.08);
+  background:#fff;
+  color:#111;
+  font:16px/1.4 inherit;
+}
+.field::placeholder{
+  color:#9aa3b2;
+  opacity:.8;
+}
+.field:focus{
+  outline:2px solid rgba(255,115,0,.35);
+}
 
-/* ===== Попап №2 — магазин ===== */
+/* ===============================
+   ПОПАП №2 (МАГАЗИН ЗВЁЗД)
+=============================== */
 .shop-header{
   width:100%;
-  min-height:150px;          /* как просила */
+  min-height:150px;       /* твоя новая высота */
   display:grid;
   place-items:center;
   gap:4px;
   padding:14px 12px;
+  background:var(--chip);
+  border-radius:16px;
 }
 .shop-header__icon{width:56px;height:auto;display:block}
 .shop-title{margin:4px 0 0;font-size:22px;font-weight:800;color:#000}
 .shop-subtitle{margin:0;font-size:14px;color:#000;opacity:.75}
 
-.shop-list{display:grid;width:100%;gap:10px}
+.shop-list{
+  display:grid;
+  width:100%;
+  gap:10px;
+}
 .shop-item{
   width:100%;
-  display:grid;grid-template-columns:1fr auto;align-items:center;
-  gap:12px;padding:12px 14px;border:0;background:var(--chip);border-radius:16px;
+  display:grid;
+  grid-template-columns:1fr auto;
+  align-items:center;
+  gap:12px;
+  padding:12px 14px;
+  border:0;
+  background:var(--chip);
+  border-radius:16px;
   cursor:pointer;
 }
-.shop-item__left{display:flex;align-items:center;gap:10px;color:#000;font-weight:700}
+.shop-item__left{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:#000;
+  font-weight:700;
+}
 .shop-item__left img{width:20px;height:auto}
-.shop-item__right{display:flex;align-items:center;gap:8px;color:#000;font-weight:800}
+.shop-item__right{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  color:#000;
+  font-weight:800;
+}
 .shop-item__right img{width:22px;height:auto}
 .shop-num{min-width:36px;text-align:right}
 .shop-item:hover{filter:brightness(.98)}
-/* ===== Адаптив для маленьких устройств ===== */
-@media (max-width: 360px), (max-height: 640px) {
-  .shop-header {
-    min-height: 100px;   /* вместо 150 px */
-    padding: 10px 8px;   /* чуть меньше внутренние отступы */
-  }
-  .shop-header__icon {
-    width: 40px;         /* звезда сверху поменьше */
-  }
-  .shop-title {
-    font-size: 18px;
-  }
-  .shop-subtitle {
-    font-size: 12px;
-  }
-  .shop-item {
-    padding: 10px 12px;  /* немного уменьшить высоту строк */
-  }
-  .shop-item__left img,
-  .shop-item__right img {
-    width: 18px;         /* иконки звезды/планеты тоже чуть меньше */
-  }
-}
 
+/* ===============================
+   АДАПТИВ ДЛЯ МАЛЕНЬКИХ УСТРОЙСТВ
+=============================== */
+@media (max-width:360px),(max-height:640px){
+  .shop-header{
+    min-height:100px; /* меньше */
+    padding:10px 8px;
+  }
+  .shop-header__icon{width:40px;}
+  .shop-title{font-size:18px;}
+  .shop-subtitle{font-size:12px;}
+  .shop-item{padding:10px 12px;}
+  .shop-item__left img,
+  .shop-item__right img{width:18px;}
+}
