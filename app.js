@@ -110,7 +110,8 @@ function initBuyStars(){
       const amount = Number(btn.dataset.amount || 0);
       // пополняем баланс
       STATE.coins += amount;
-      renderBalance();
+      renderPlusBalance();
+
 
       // можно послать событие в TG, если нужно
       if (window.Telegram?.WebApp) {
@@ -137,6 +138,11 @@ function initPrizesPopup(){
 
 // ===== Попап #4 (профиль + подтверждение)
 const STATE = { coins: 0, pricePremium: 500, hasPremium: false, totalPhotos: 0 };
+function renderPlusBalance(){
+  const el = document.querySelector('[data-plus-balance]');
+  if (el) el.textContent = String(STATE.coins);
+}
+
 
 function computeShowTimeSec(total){ return 20 + Math.floor(Number(total||0)/100); }
 
@@ -184,6 +190,9 @@ function initConfirmPremium(){
     closeModal(); openModal('profile');
   });
 }
+
+renderPlusBalance();
+
 
 // DEBUG контуры хот-спотов (оставь пока удобно)
 document.body.classList.add('__debug');
