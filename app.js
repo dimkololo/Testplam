@@ -179,7 +179,7 @@ function initConfirmPremium(){
   if (!root) return;
 
   root.querySelector('[data-confirm-yes]')?.addEventListener('click', ()=>{
-    const price = 500; // заглушка цены
+    const price = 1500; // заглушка цены
     if ((window.PLAM.balance||0) < price){
       closeModal(); openModal('buy-stars'); return;
     }
