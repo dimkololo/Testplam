@@ -59,16 +59,22 @@ function initUploadPopup(){
   const fileInput = root.querySelector('#file-input');
   root.querySelector('.btn-pick')?.addEventListener('click', ()=>fileInput?.click());
 
-  // слайдер
-  const range = root.querySelector('.range');
-  const starsEl = root.querySelector('[data-stars]');
-  const secsEl  = root.querySelector('[data-secs]');
-  const upd = () => {
-    const v = parseInt(range.value || '0', 10) || 0;
-    starsEl.textContent = `${v} PLAMc`;
-    secsEl.textContent  = `${v} сек`;
+  // 2) Слайдер
+const range   = root.querySelector('.range');
+const starsEl = root.querySelector('[data-stars]');
+const secsEl  = root.querySelector('[data-secs]');
+
+if (range && starsEl && secsEl) {
+  const update = () => {
+    const v = Number(range.value);          // 0..20
+    starsEl.textContent = `${v} PLAMc`;     // слева — просто число PLAMc
+    // справа — 0 sec для 0, и +N sec начиная с 1
+    secsEl.textContent  = (v === 0) ? '0 sec' : `+${v} sec`;
   };
-  range.addEventListener('input', upd); upd();
+  range.addEventListener('input', update);
+  update(); // выставить начальное состояние
+}
+
 
   // отправка
   root.querySelector('[data-upload-form]')?.addEventListener('submit', (e)=>{
