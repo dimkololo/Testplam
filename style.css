@@ -55,10 +55,11 @@
   --gift-w-l: 210;  /* чуть уже */
   --gift-h-l: 160;  /* чуть меньше по высоте */
    
-   /* ПРОФИЛЬ (кресло/персонаж) — зона клика */
---profile-x-s: 110; --profile-y-s: 360; --profile-w-s: 160; --profile-h-s: 160;
---profile-x-m: 120; --profile-y-m: 620; --profile-w-m: 200; --profile-h-m: 190;
---profile-x-l: 250; --profile-y-l: 910; --profile-w-l: 320; --profile-h-l: 260;
+   /* ДНЕВНИК (нижняя левая иконка) — центр и габариты зоны */
+   --notebook-x-s:  95;  --notebook-y-s: 530;  --notebook-w-s: 120; --notebook-h-s: 90;
+   --notebook-x-m: 110; --notebook-y-m: 790;  --notebook-w-m: 150; --notebook-h-m: 110;
+   --notebook-x-l: 220; --notebook-y-l: 1120; --notebook-w-l: 220; --notebook-h-l: 160;
+
 
 }
 
@@ -195,32 +196,35 @@ html,body{
     height:calc(var(--gift-h-l) / var(--design-h) * 100%);
   }
 }
-   /* Профиль (medium) */
-.hotspot--profile{
-  left:  calc(var(--profile-x-m) / var(--design-w) * 100%);
-  top:   calc(var(--profile-y-m) / var(--design-h) * 100%);
-  width: calc(var(--profile-w-m) / var(--design-w) * 100%);
-  height:calc(var(--profile-h-m) / var(--design-h) * 100%);
+   /* Дневник (medium) */
+.hotspot--notebook{
+  left:  calc(var(--notebook-x-m) / var(--design-w) * 100%);
+  top:   calc(var(--notebook-y-m) / var(--design-h) * 100%);
+  width: calc(var(--notebook-w-m) / var(--design-w) * 100%);
+  height:calc(var(--notebook-h-m) / var(--design-h) * 100%);
   transform: translate(-50%, -50%);
 }
+
 /* small */
 @media (max-width:360px){
-  .hotspot--profile{
-    left:  calc(var(--profile-x-s) / var(--design-w) * 100%);
-    top:   calc(var(--profile-y-s) / var(--design-h) * 100%);
-    width: calc(var(--profile-w-s) / var(--design-w) * 100%);
-    height:calc(var(--profile-h-s) / var(--design-h) * 100%);
+  .hotspot--notebook{
+    left:  calc(var(--notebook-x-s) / var(--design-w) * 100%);
+    top:   calc(var(--notebook-y-s) / var(--design-h) * 100%);
+    width: calc(var(--notebook-w-s) / var(--design-w) * 100%);
+    height:calc(var(--notebook-h-s) / var(--design-h) * 100%);
   }
 }
+
 /* large */
 @media (min-width:768px), (min-height:1024px){
-  .hotspot--profile{
-    left:  calc(var(--profile-x-l) / var(--design-w) * 100%);
-    top:   calc(var(--profile-y-l) / var(--design-h) * 100%);
-    width: calc(var(--profile-w-l) / var(--design-w) * 100%);
-    height:calc(var(--profile-h-l) / var(--design-h) * 100%);
+  .hotspot--notebook{
+    left:  calc(var(--notebook-x-l) / var(--design-w) * 100%);
+    top:   calc(var(--notebook-y-l) / var(--design-h) * 100%);
+    width: calc(var(--notebook-w-l) / var(--design-w) * 100%);
+    height:calc(var(--notebook-h-l) / var(--design-h) * 100%);
   }
 }
+
 
 
 
