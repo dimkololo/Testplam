@@ -1,6 +1,5 @@
-// === DEBUG переключатель ===
-const DEBUG = true; // поставь false, когда всё ок
-if (DEBUG) document.body.classList.add('__debug');
+const DEBUG = true; // потом вернёшь false
+document.body.classList.add('__debug');
 
 // Telegram WebApp (необязательно)
 if (window.Telegram && window.Telegram.WebApp) {
