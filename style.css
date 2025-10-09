@@ -97,15 +97,6 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);
 .hotspot--plus{ z-index:25; }
 .hotspot--plus::before{ pointer-events:none; z-index:-1; }
 
-.hotspot--plus .plus-indicator{
-  position:absolute; left:47%; top:52%; transform:translateY(-50%);
-  pointer-events:none;
-  display:inline-block; text-align:left;
-  font-weight:800; color:#FFE29A; text-shadow:0 2px 2px rgba(0,0,0,.25);
-  font-variant-numeric:tabular-nums;
-  font-size:clamp(14px,2.6vw,30px);
-}
-
 .hotspot--plus .plus-ui{
   position:absolute;
   inset:0;                               /* во всю кнопку-облако */
@@ -167,7 +158,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);
     left:calc(var(--plus-x-s)/var(--design-w)*100%); top:calc(var(--plus-y-s)/var(--design-h)*100%);
     width:calc(var(--plus-w-s)/var(--design-w)*100%); height:calc(var(--plus-h-s)/var(--design-h)*100%);
   }
-  .hotspot--plus .plus-indicator{ left:49%; top:55%; font-size:clamp(12px,3.2vw,22px) }
+  
   .hotspot--gift{
     left:calc(var(--gift-x-s)/var(--design-w)*100%); top:calc(var(--gift-y-s)/var(--design-h)*100%);
     width:calc(var(--gift-w-s)/var(--design-w)*100%); height:calc(var(--gift-h-s)/var(--design-h)*100%);
@@ -191,7 +182,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);
     left:calc(var(--plus-x-l)/var(--design-w)*100%); top:calc(var(--plus-y-l)/var(--design-h)*100%);
     width:calc(var(--plus-w-l)/var(--design-w)*100%); height:calc(var(--plus-h-l)/var(--design-h)*100%);
   }
-  .hotspot--plus .plus-indicator{ left:45.5%; top:50% } /* число растёт вправо */
+  
   .hotspot--gift{
     left:calc(var(--gift-x-l)/var(--design-w)*100%); top:calc(var(--gift-y-l)/var(--design-h)*100%);
     width:calc(var(--gift-w-l)/var(--design-w)*100%); height:calc(var(--gift-h-l)/var(--design-h)*100%);
