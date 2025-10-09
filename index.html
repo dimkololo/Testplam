@@ -46,7 +46,13 @@
         data-open-modal="buy-stars"
         aria-label="Открыть попап звёзд"
       >
-        <span class="plus-indicator"><span data-plus-balance>0</span></span>
+        <span class="plus-ui" aria-hidden="true">
+    <span id="plusValue" class="plus-value">0</span>
+    <img class="plus-currency"
+         src="./bgicons/earth-item.png"
+         srcset="./bgicons/earth-item.png 1x, ./bgicons/earth-item@2x.png 2x"
+         alt="">
+        </span>
       </button>
 
       <button
