@@ -32,6 +32,9 @@
       <button class="hotspot hotspot--plus"
               data-open-modal="buy-stars"
               aria-label="Открыть попап звёзд"></button>
+      <button class="hotspot hotspot--gift"
+        data-open-modal="prizes"
+        aria-label="Открыть попап призов"></button>
     </div>
   </main>
 
@@ -161,6 +164,77 @@
       </div>
     </section>
   </template>
+  <!-- Попап №3 (призы/выплата) -->
+<template id="tpl-prizes">
+  <section class="popup prizes-popup">
+    <!-- Сетка карточек с чекбоксами -->
+    <div class="prizes-grid" data-prizes>
+      <!-- 6 пустых карточек (позже сюда подгрузим данные) -->
+      <label class="prize-card chip">
+        <input type="checkbox" class="check-input" />
+        <span class="checkmark" aria-hidden="true"></span>
+        <div class="prize-body">
+          <div class="prize-title">Приз 1</div>
+          <div class="prize-sub">Описание / placeholder</div>
+        </div>
+      </label>
+
+      <label class="prize-card chip">
+        <input type="checkbox" class="check-input" />
+        <span class="checkmark" aria-hidden="true"></span>
+        <div class="prize-body">
+          <div class="prize-title">Приз 2</div>
+          <div class="prize-sub">Описание / placeholder</div>
+        </div>
+      </label>
+
+      <label class="prize-card chip">
+        <input type="checkbox" class="check-input" />
+        <span class="checkmark" aria-hidden="true"></span>
+        <div class="prize-body">
+          <div class="prize-title">Приз 3</div>
+          <div class="prize-sub">Описание / placeholder</div>
+        </div>
+      </label>
+
+      <label class="prize-card chip">
+        <input type="checkbox" class="check-input" />
+        <span class="checkmark" aria-hidden="true"></span>
+        <div class="prize-body">
+          <div class="prize-title">Приз 4</div>
+          <div class="prize-sub">Описание / placeholder</div>
+        </div>
+      </label>
+
+      <label class="prize-card chip">
+        <input type="checkbox" class="check-input" />
+        <span class="checkmark" aria-hidden="true"></span>
+        <div class="prize-body">
+          <div class="prize-title">Приз 5</div>
+          <div class="prize-sub">Описание / placeholder</div>
+        </div>
+      </label>
+
+      <label class="prize-card chip">
+        <input type="checkbox" class="check-input" />
+        <span class="checkmark" aria-hidden="true"></span>
+        <div class="prize-body">
+          <div class="prize-title">Приз 6</div>
+          <div class="prize-sub">Описание / placeholder</div>
+        </div>
+      </label>
+    </div>
+
+    <!-- Кнопка и примечание -->
+    <div class="u-center">
+      <button class="btn-pay" type="button" disabled>Выплатить</button>
+    </div>
+    <p class="pay-note">
+      Нажимая кнопку «Выплатить» вы подтверждаете, что ознакомлены с правилами и публичной офертой.
+    </p>
+  </section>
+</template>
+
 
   <script src="./app.js?v=24"></script>
 </body>
