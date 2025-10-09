@@ -44,8 +44,9 @@ document.addEventListener('keydown', (e) => {
 
 // --- Индикатор на плюс-облаке ---
 function updatePlusBalanceUI(){
-  const el = document.querySelector('.hotspot--plus [data-plus-balance]');
-  if (el) el.textContent = String(window.PLAM.balance || 0);
+  const el = document.getElementById('plusValue');
+  if (el) el.textContent = String(window.PLAM.balance || 0); // без "+"
+  // ...обновляешь aria-label при желании
 }
 updatePlusBalanceUI();
 
