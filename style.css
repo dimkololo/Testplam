@@ -75,9 +75,9 @@
   --notebook-h-l: 160;
    
    /* Сдвиги внутри облака (в пикселях макета) — можно подправить по вкусу */
-   --plus-label-dx-s: 16;  --plus-label-dy-s:  2;
-  --plus-label-dx-m: 20;  --plus-label-dy-m:  4;
-  --plus-label-dx-l: 28;  --plus-label-dy-l:  6;
+   --plus-label-dx-s: 16;  --plus-label-dy-s:  0;
+  --plus-label-dx-m: 20;  --plus-label-dy-m:  2;
+  --plus-label-dx-l: 28;  --plus-label-dy-l:  4;
 
 }
 
