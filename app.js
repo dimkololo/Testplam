@@ -92,23 +92,31 @@ function initUploadPopup(){
   });
 }
 
-// --- Попап 2: магазин ---
+// --- Попап 2: магазин (покупка PLAMc) ---
 function initBuyStars(){
   const root = modalRoot.querySelector('.shop-popup');
   if (!root) return;
 
   root.querySelectorAll('.shop-item').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
+    btn.addEventListener('click', (e)=>{
+      e.preventDefault();
+
       const amount = Number(btn.dataset.amount || 0);
-      window.PLAM.balance = (window.PLAM.balance||0) + amount;
+      // локально увеличиваем баланс
+      window.PLAM.balance = (window.PLAM.balance || 0) + amount;
       updatePlusBalanceUI();
 
-      if (window.Telegram?.WebApp) {
-        try { window.Telegram.WebApp.sendData(JSON.stringify({type:'buyStars', amount})); } catch(_) {}
-      }
-    });
+      // НИКАКОГО sendData здесь — Android закроет WebApp.
+      // Можно показать хаптик/алерт, чтобы было видно действие:
+      try { window.Telegram?.WebApp?.HapticFeedback?.impactOccurred('light'); } catch(_) {}
+      try { window.Telegram?.WebApp?.showAlert?.(`+${amount} PLAMc`); } catch(_) {}
+
+      // остаёмся внутри WebApp; модалку закрывать не обязательно
+      // closeModal();
+    }, { passive:false });
   });
 }
+
 
 // --- Попап 3: призы ---
 function initPrizes(){
