@@ -145,12 +145,16 @@ function initProfile(){
   if (usr?.photo_url) avatarEl.style.backgroundImage = `url("${usr.photo_url}")`;
 
   // заполняем статистику
-  root.querySelector('[data-photo-count]').textContent = String(window.PLAM.photoCount || 0);
-  const secs = 20 + Math.floor((window.PLAM.photoCount || 0) / 100);
+  const photos = Number(window.PLAM.photoCount || 0);
+  root.querySelector('[data-photo-count]').textContent = String(photos);
+
+  // базовое время: 40 сек при премиуме, 20 сек иначе
+  const baseSecs = window.PLAM.premium ? 40 : 20;
+  const secs = baseSecs + Math.floor(photos / 100);
   root.querySelector('[data-show-seconds]').textContent = `${secs} сек`;
 
   // кнопка премиума
-  const setBtn = ()=>{
+   const setBtn = ()=>{
     if (window.PLAM.premium){
       btnPremium.textContent = 'Премиум';
       btnPremium.classList.add('is-owned');
