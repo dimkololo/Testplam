@@ -353,3 +353,8 @@ html,body{
   .shop-item__left img,
   .shop-item__right img{width:18px;}
 }
+/* картинка фона не должна ловить клики */
+.stage__img { pointer-events: none; }
+
+/* хот-споты поверх всего в стейдже */
+.hotspot { z-index: 5; }
