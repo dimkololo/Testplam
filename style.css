@@ -36,6 +36,11 @@
   --plus-x-m:292; --plus-y-m: 150; --plus-w-m:200; --plus-h-m:90;
   --plus-x-s:243; --plus-y-s:122; --plus-w-s:150; --plus-h-s:70;
   --plus-x-l:620; --plus-y-l:150; --plus-w-l:360; --plus-h-l:150;
+
+   /* ПОДАРОК — центр и габариты клик-зоны (medium/small/large) */
+--gift-x-m: 325;  --gift-y-m: 790;  --gift-w-m: 140; --gift-h-m: 110;
+--gift-x-s: 250;  --gift-y-s: 515;  --gift-w-s: 110; --gift-h-s: 90;
+--gift-x-l: 700;  --gift-y-l: 1120; --gift-w-l: 220; --gift-h-l: 170;
 }
 
 /* ===============================
@@ -141,7 +146,37 @@ html,body{
     width:calc(var(--plus-w-l)/var(--design-w)*100%);
     height:calc(var(--plus-h-l)/var(--design-h)*100%);
   }
+   
 }
+/* Подарок (medium) */
+.hotspot--gift{
+  left:  calc(var(--gift-x-m) / var(--design-w) * 100%);
+  top:   calc(var(--gift-y-m) / var(--design-h) * 100%);
+  width: calc(var(--gift-w-m) / var(--design-w) * 100%);
+  height:calc(var(--gift-h-m) / var(--design-h) * 100%);
+  transform: translate(-50%, -50%);
+}
+
+/* small */
+@media (max-width:360px){
+  .hotspot--gift{
+    left:  calc(var(--gift-x-s) / var(--design-w) * 100%);
+    top:   calc(var(--gift-y-s) / var(--design-h) * 100%);
+    width: calc(var(--gift-w-s) / var(--design-w) * 100%);
+    height:calc(var(--gift-h-s) / var(--design-h) * 100%);
+  }
+}
+
+/* large */
+@media (min-width:768px), (min-height:1024px){
+  .hotspot--gift{
+    left:  calc(var(--gift-x-l) / var(--design-w) * 100%);
+    top:   calc(var(--gift-y-l) / var(--design-h) * 100%);
+    width: calc(var(--gift-w-l) / var(--design-w) * 100%);
+    height:calc(var(--gift-h-l) / var(--design-h) * 100%);
+  }
+}
+
 
 /* ===============================
    МОДАЛКА
@@ -364,6 +399,71 @@ html,body{
   .shop-item__left img,
   .shop-item__right img{width:18px;}
 }
+/* ===== POPUP #3 — PRIZES ===== */
+.prizes-popup{ width:100%; max-width:420px; display:grid; gap:14px }
+
+.prizes-grid{
+  display:grid;
+  grid-template-columns: repeat(3, 1fr); /* по макету 3 в ряд на средних/больших */
+  gap:12px;
+}
+
+/* маленькие устройства — 2 столбца по 2 ряда */
+@media (max-width:360px),(max-height:640px){
+  .prizes-grid{ grid-template-columns: repeat(2, 1fr); }
+}
+
+.prize-card{
+  position:relative;
+  min-height:110px;                      /* квадрат/прямоугольник */
+  background:var(--chip);                /* D9D9D9 */
+  border-radius:16px;
+  padding:12px;
+  display:flex;
+  align-items:flex-end;
+}
+
+/* чекбокс */
+.check-input{ position:absolute; opacity:0; pointer-events:none }
+.checkmark{
+  position:absolute; top:12px; right:12px;
+  width:26px; height:26px; border-radius:50%;
+  border:2px solid #FF7300;              /* оранжевая обводка */
+  display:inline-block;
+}
+
+/* внутренняя точка */
+.checkmark::after{
+  content:""; position:absolute; inset:5px;
+  border-radius:50%; background:#FF7300; /* оранжевая заливка */
+  transform: scale(0); transition: transform .12s ease;
+}
+
+/* активное состояние */
+.prize-card:has(.check-input:checked) .checkmark::after{ transform: scale(1); }
+
+/* контент карточки (плейсхолдер) */
+.prize-body{ color:#000; opacity:.75; font-size:12px }
+.prize-title{ font-weight:700; margin-bottom:4px; opacity:.9 }
+.prize-sub{ font-size:11px }
+
+/* кнопка выплатить */
+.btn-pay{
+  display:inline-flex; align-items:center; justify-content:center;
+  min-width:220px; padding:0 18px; height:56px;
+  border-radius:35px; border:0; cursor:pointer; user-select:none;
+  background:#FF7300; color:#fff; font-weight:800; font-size:18px;
+  box-shadow:0 6px 14px rgba(255,115,0,.25);
+}
+.btn-pay:disabled{
+  background:#D9D9D9; color:#777; box-shadow:none; cursor:not-allowed;
+}
+
+.pay-note{
+  margin:0; padding:0 4px 4px; text-align:center;
+  color:#fff; opacity:.8; font-size:11px; line-height:1.3;
+}
+
 /* картинка фона не должна ловить клики */
 .stage__img { pointer-events: none; }
 
@@ -377,4 +477,6 @@ body.__debug .hotspot {
   outline: 2px dashed rgba(0, 200, 255, .8);
   background: rgba(0, 200, 255, .12);
 }
+
+
 
