@@ -18,20 +18,22 @@
   --lw:834; --lh:1194;        /* large */
 
   /* координаты центра пня (с расширенной зоной) */
- --stump-x-m: 340; --stump-y-m: 610;
+  --stump-x-m: 340; --stump-y-m: 610;
   --stump-x-s: 285; --stump-y-s: 440;
   --stump-x-l: 710; --stump-y-l: 890;
 
-  --hot-w-m: 260; --hot-h-m: 130;
+  --hot-w-m: 190;     /* было 260 — уже по ширине (слева табличка, справа пенёк) */
+  --hot-h-m: 120;
   --hot-w-s: 200; --hot-h-s: 100;
   --hot-w-l: 350; --hot-h-l: 160;
 
-   --shift-x-m: -60;  --shift-y-m: 0;
+   --shift-x-m: -20;   /* было -60 — меньше уводим влево */
+  --shift-y-m: -40;
   --shift-x-s: -45;  --shift-y-s: 0;
   --shift-x-l: -80;  --shift-y-l: 0;
 
   /* координаты облака с плюсом */
-  --plus-x-m:292; --plus-y-m:170; --plus-w-m:200; --plus-h-m:90;
+  --plus-x-m:292; --plus-y-m: 150; --plus-w-m:200; --plus-h-m:90;
   --plus-x-s:243; --plus-y-s:122; --plus-w-s:150; --plus-h-s:70;
   --plus-x-l:620; --plus-y-l:210; --plus-w-l:360; --plus-h-l:150;
 }
