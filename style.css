@@ -27,7 +27,7 @@
   --plus-font-m: 18px;      /* размер шрифта на средних */
   --plus-icon-m: 22px;      /* размер иконки 🌍 на средних */
   --plus-gap-m: 8px;        /* зазор между числом и иконкой */
-  --plus-padleft-m: 60px;   /* отступ слева, чтобы не наезжать на кружок "+" в облаке */
+  --plus-padleft-m: 70px;   /* отступ слева, чтобы не наезжать на кружок "+" в облаке */
 
   /* Подарок */
   --gift-x-m:305; --gift-y-m:740; --gift-w-m:130; --gift-h-m:100;
@@ -136,10 +136,10 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);
 /* SMALL */
 @media (max-width:360px),(max-height:640px){
   :root{
-    --plus-font-m: 18px;
-    --plus-icon-m: 18px;
+    --plus-font-m: 16px;
+    --plus-icon-m: 16px;
     --plus-gap-m: 6px;
-    --plus-padleft-m: 50px;
+    --plus-padleft-m: 60px;
   }
 }
 
@@ -149,7 +149,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);
     --plus-font-m: 24px;
     --plus-icon-m: 28px;
     --plus-gap-m: 10px;
-    --plus-padleft-m: 70px;
+    --plus-padleft-m: 80px;
   }
 }
 
