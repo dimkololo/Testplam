@@ -25,6 +25,7 @@ function openModal(id){
   ScrollLock.lock();
   if(id === 'upload-popup') initUploadPopup();
   if(id === 'buy-stars') initBuyStars();
+  if (id === 'prizes') initPrizesPopup();
 }
 function closeModal(){
   modalRoot.hidden = true;
@@ -52,6 +53,10 @@ document.addEventListener('keydown', (e) => {
 function bindHotspots() {
   const stump = document.querySelector('.hotspot--stump');
   const plus  = document.querySelector('.hotspot--plus');
+  const gift = document.querySelector('.hotspot--gift');
+  if (gift) {
+  gift.addEventListener('click', () => openModal('prizes'));
+}
 
   if (stump) {
     stump.addEventListener('click', (e) => {
@@ -127,6 +132,38 @@ function initBuyStars(){
     });
   });
 }
+
+//Попап №3 (призы)
+function initPrizesPopup(){
+  const root = modalRoot.querySelector('.prizes-popup');
+  if (!root) return;
+
+  const checkboxes = [...root.querySelectorAll('.check-input')];
+  const btn = root.querySelector('.btn-pay');
+
+  const sync = () => {
+    const anyChecked = checkboxes.some(ch => ch.checked);
+    btn.disabled = !anyChecked;
+  };
+
+  // при клике по карточке браузер сам переключит checkbox
+  // достаточно слушать изменения
+  checkboxes.forEach(ch => ch.addEventListener('change', sync));
+  sync();
+
+  btn.addEventListener('click', () => {
+    const selected = checkboxes
+      .map((ch, i) => (ch.checked ? `prize_${i+1}` : null))
+      .filter(Boolean);
+    console.log('Выплатить призы:', selected);
+
+    // здесь место для запроса на сервер
+    // fetch('/api/payout', { method:'POST', body: JSON.stringify({selected}) })
+
+    closeModal();
+  });
+}
+
 
 // Подстраховка выбора фона (оставляем)
 (function ensureCorrectBackground() {
