@@ -45,9 +45,10 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);
 
 /* хот-споты */
 .hotspot{
-  position:absolute; transform:translate(-50%,-50%);
+  position:absolute;
+  transform:translate(-50%,-50%);
   border:0; background:transparent; cursor:pointer;
-  z-index:20; /* выше всего фона */
+  z-index: 20;
 }
 
 /* пенёк */
@@ -67,6 +68,9 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);
   left:calc(var(--notebook-x-m)/var(--design-w)*100%); top:calc(var(--notebook-y-m)/var(--design-h)*100%);
   width:calc(var(--notebook-w-m)/var(--design-w)*100%); height:calc(var(--notebook-h-m)/var(--design-h)*100%);
 }
+.hotspot--stump,
+.hotspot--gift,
+.hotspot--notebook { z-index: 30; }
 
 /* плюс-облако как отдельный слой */
 .hotspot--plus{
@@ -82,6 +86,9 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);
   );
   pointer-events:none;
 }
+.hotspot--plus{ z-index: 25; }
+.hotspot--plus::before{ pointer-events:none; z-index: -1; }
+
 .hotspot--plus .plus-indicator{
   position:absolute; left:47%; top:52%; transform:translateY(-50%);
   pointer-events:none;
@@ -229,5 +236,8 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);
 .btn-confirm.yes{background:#FF7300; color:#fff}
 .btn-confirm.no{background:#D9D9D9; color:#000}
 
-/* DEBUG: включи ?debug=1 или Shift+D */
-body.__debug .hotspot{outline:2px dashed rgba(0,200,255,.85); background:rgba(0,200,255,.12)}
+/* DEBUG: рамки хот-спотов (включается классом __debug на body) */
+.hotspot{
+  outline:2px dashed rgba(0,200,255,.9);
+  background:rgba(0,200,255,.10);
+}
