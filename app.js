@@ -1,4 +1,8 @@
-// Telegram WebApp (необязательно, но ок)
+// === DEBUG переключатель ===
+const DEBUG = true; // поставь false, когда всё ок
+if (DEBUG) document.body.classList.add('__debug');
+
+// Telegram WebApp (необязательно)
 if (window.Telegram && window.Telegram.WebApp) {
   try { window.Telegram.WebApp.expand(); } catch(e) {}
 }
@@ -14,7 +18,7 @@ const ScrollLock = {
 
 function openModal(id){
   const tpl = document.getElementById(`tpl-${id}`);
-  if(!tpl) return;
+  if(!tpl) { console.warn('[openModal] template not found:', id); return; }
   modalContent.innerHTML = '';
   modalContent.appendChild(tpl.content.cloneNode(true));
   modalRoot.hidden = false;
@@ -30,24 +34,54 @@ function closeModal(){
   ScrollLock.unlock();
 }
 
+// Делегирование (оставляем)
 document.addEventListener('click', (e) => {
   const opener = e.target.closest('[data-open-modal]');
-  if (opener) { openModal(opener.getAttribute('data-open-modal')); return; }
+  if (opener) {
+    const id = opener.getAttribute('data-open-modal');
+    if (DEBUG) console.log('[delegate] open', id);
+    openModal(id);
+    return;
+  }
   if (e.target.matches('[data-dismiss]') || e.target.closest('[data-dismiss]')) closeModal();
 });
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && !modalRoot.hidden) closeModal();
 });
 
+// Прямые слушатели на хот-споты (важно для устройств/эмуляторов)
+function bindHotspots() {
+  const stump = document.querySelector('.hotspot--stump');
+  const plus  = document.querySelector('.hotspot--plus');
+
+  if (stump) {
+    stump.addEventListener('click', (e) => {
+      if (DEBUG) console.log('[click] stump hotspot');
+      openModal('upload-popup');
+    });
+  } else if (DEBUG) { console.warn('[bindHotspots] .hotspot--stump not found'); }
+
+  if (plus) {
+    plus.addEventListener('click', (e) => {
+      if (DEBUG) console.log('[click] plus hotspot');
+      openModal('buy-stars');
+    });
+  } else if (DEBUG) { console.warn('[bindHotspots] .hotspot--plus not found'); }
+}
+bindHotspots();
+
 // Попап №1
 function initUploadPopup(){
   const root = modalRoot.querySelector('.upload-popup');
-  if(!root) return;
+  if(!root) { if (DEBUG) console.warn('[initUploadPopup] root not found'); return; }
 
   const fileInput = root.querySelector('#file-input');
   const btnPick = root.querySelector('.btn-pick');
   if(btnPick && fileInput){
-    btnPick.addEventListener('click', () => fileInput.click());
+    btnPick.addEventListener('click', () => {
+      if (DEBUG) console.log('[upload] pick photo');
+      fileInput.click();
+    });
   }
 
   const range = root.querySelector('.range');
@@ -69,7 +103,7 @@ function initUploadPopup(){
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       const data = Object.fromEntries(new FormData(form).entries());
-      console.log('Upload form submit:', data);
+      if (DEBUG) console.log('[upload] submit', data);
       if (window.Telegram?.WebApp) {
         try { window.Telegram.WebApp.sendData(JSON.stringify({type:'upload', ...data})); } catch(_) {}
       }
@@ -81,12 +115,12 @@ function initUploadPopup(){
 // Попап №2 (звёзды)
 function initBuyStars(){
   const root = modalRoot.querySelector('.shop-popup');
-  if(!root) return;
+  if(!root) { if (DEBUG) console.warn('[initBuyStars] root not found'); return; }
 
   root.querySelectorAll('.shop-item').forEach(btn=>{
     btn.addEventListener('click', ()=>{
       const amount = btn.dataset.amount;
-      console.log('Buy stars:', amount);
+      if (DEBUG) console.log('[buyStars] amount', amount);
       if (window.Telegram?.WebApp) {
         try { window.Telegram.WebApp.sendData(JSON.stringify({type:'buyStars', amount})); } catch(_) {}
       }
@@ -95,7 +129,7 @@ function initBuyStars(){
   });
 }
 
-// (опционально) подстраховка выбора фона по реальным размерам
+// Подстраховка выбора фона (оставляем)
 (function ensureCorrectBackground() {
   const img = document.querySelector('.stage__img');
   if (!img) return;
@@ -111,6 +145,3 @@ function initBuyStars(){
     img.srcset = './bgicons/bg-medium.png 1x, ./bgicons/bg-medium@2x.png 2x';
   }
 })();
-document.querySelector('.hotspot--stump')?.addEventListener('click', () => {
-  openModal('upload-popup');
-});
