@@ -26,7 +26,7 @@
   --plus-font-m:18px;   /* размер шрифта (medium) */
   --plus-icon-m:22px;   /* размер иконки 🌍 (medium) */
   --plus-gap-m:0px;     /* зазор между числом и иконкой */
-  --plus-padleft-m:70px;/* отступ от кружка "+" внутри облака */
+  --plus-padleft-m:60px;/* отступ от кружка "+" внутри облака */
 
   /* Подарок */
   --gift-x-m:305; --gift-y-m:740; --gift-w-m:130; --gift-h-m:100;
@@ -149,7 +149,7 @@ html,body{
     --plus-font-m:16px;
     --plus-icon-m:18px;
     --plus-gap-m:0px;
-    --plus-padleft-m:40px;
+    --plus-padleft-m:30px;
   }
 }
 
@@ -176,7 +176,7 @@ html,body{
   }
 
   :root{
-    --plus-font-m:34px;
+    --plus-font-m:24px;
     --plus-icon-m:28px;
     --plus-gap-m:10px;
     --plus-padleft-m:70px;
