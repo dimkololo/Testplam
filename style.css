@@ -618,6 +618,23 @@ html,body{
 .btn-confirm.yes{ background:#FF7300; color:#fff }
 .btn-confirm.no { background:#D9D9D9; color:#000 }
 
+/* ===== Wallet (баланс в попапе плюса) ===== */
+.wallet{
+  display:flex; align-items:center; gap:8px;
+  background: var(--chip);
+  border-radius: 16px;
+  padding: 10px 12px;
+}
+.wallet-input{
+  flex:1 1 auto;
+  height:36px; padding:0 10px;
+  border-radius:10px; border:1px solid rgba(0,0,0,.08);
+  background:#fff; color:#000; font-weight:700;
+}
+.wallet-input[readonly]{ background:#fff; }
+.wallet-icon{ width:22px; height:22px; flex:0 0 auto; }
+.wallet-unit{ font-weight:800; color:#000; opacity:.8 }
+
 
 /* картинка фона не должна ловить клики */
 .stage__img { pointer-events: none; }
