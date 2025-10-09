@@ -24,7 +24,7 @@
   --plus-x-l:560; --plus-y-l:150; --plus-w-l:330; --plus-h-l:150; /* подвинул левее для больших */
 
   /* ===== Облако с плюсом: число и иконка валюты ===== */
-  --plus-font-m: 26px;      /* размер шрифта на средних */
+  --plus-font-m: 18px;      /* размер шрифта на средних */
   --plus-icon-m: 22px;      /* размер иконки 🌍 на средних */
   --plus-gap-m: 8px;        /* зазор между числом и иконкой */
   --plus-padleft-m: 44px;   /* отступ слева, чтобы не наезжать на кружок "+" в облаке */
@@ -136,7 +136,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);
 /* SMALL */
 @media (max-width:360px),(max-height:640px){
   :root{
-    --plus-font-m: 20px;
+    --plus-font-m: 18px;
     --plus-icon-m: 18px;
     --plus-gap-m: 6px;
     --plus-padleft-m: 36px;
@@ -146,7 +146,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);
 /* LARGE */
 @media (min-width:768px),(min-height:1024px){
   :root{
-    --plus-font-m: 34px;
+    --plus-font-m: 24px;
     --plus-icon-m: 28px;
     --plus-gap-m: 10px;
     --plus-padleft-m: 56px;
