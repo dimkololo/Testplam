@@ -77,7 +77,7 @@
    /* Сдвиги внутри облака (в пикселях макета) — можно подправить по вкусу */
    --plus-label-dx-s: 16;  --plus-label-dy-s:  0;
   --plus-label-dx-m: 20;  --plus-label-dy-m:  2;
-  --plus-label-dx-l: 28;  --plus-label-dy-l:  4;
+  --plus-label-dx-l: 42;  --plus-label-dy-l:  4;
 
 }
 
