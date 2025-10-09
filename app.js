@@ -57,8 +57,8 @@ function bindHotspots() {
   const stump = document.querySelector('.hotspot--stump');
   const plus  = document.querySelector('.hotspot--plus');
   const gift = document.querySelector('.hotspot--gift');
-  document.querySelector('.hotspot--profile')?.addEventListener('click', () => {
-  openModal('profile');
+  document.querySelector('.hotspot--notebook')
+  ?.addEventListener('click', () => openModal('profile'));
 });
 
   if (gift) {
