@@ -58,19 +58,19 @@
   /* ДНЕВНИК (нижняя левая иконка) — ПОДНЯТО ВЫШЕ */
   /* small */
   --notebook-x-s:  95;
-  --notebook-y-s: 500;   /* было 530 → выше на 30px */
+  --notebook-y-s: 480;   /* было 530 → выше на 30px */
   --notebook-w-s: 120;
   --notebook-h-s: 90;
 
   /* medium */
   --notebook-x-m: 110;
-  --notebook-y-m: 760;   /* было 790 → выше на 30px */
+  --notebook-y-m: 740;   /* было 790 → выше на 30px */
   --notebook-w-m: 150;
   --notebook-h-m: 110;
 
   /* large */
   --notebook-x-l: 220;
-  --notebook-y-l: 1090;  /* было 1120 → выше на 30px */
+  --notebook-y-l: 1070;  /* было 1120 → выше на 30px */
   --notebook-w-l: 220;
   --notebook-h-l: 160;
 }
