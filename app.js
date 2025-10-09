@@ -111,3 +111,6 @@ function initBuyStars(){
     img.srcset = './bgicons/bg-medium.png 1x, ./bgicons/bg-medium@2x.png 2x';
   }
 })();
+document.querySelector('.hotspot--stump')?.addEventListener('click', () => {
+  openModal('upload-popup');
+});
