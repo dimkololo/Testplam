@@ -30,7 +30,7 @@
    --shift-x-m: -30;   /* было -60 — меньше уводим влево */
   --shift-y-m: -80;
   --shift-x-s: -65;  --shift-y-s: -10;
-  --shift-x-l: -100;  --shift-y-l: -50;
+  --shift-x-l: -120;  --shift-y-l: -50;
 
   /* координаты облака с плюсом */
   --plus-x-m:292; --plus-y-m: 150; --plus-w-m:200; --plus-h-m:90;
