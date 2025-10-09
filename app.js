@@ -26,6 +26,9 @@ function openModal(id){
   if(id === 'upload-popup') initUploadPopup();
   if(id === 'buy-stars') initBuyStars();
   if (id === 'prizes') initPrizesPopup();
+  if (id === 'profile') initProfilePopup();
+  if (id === 'confirm-premium') initConfirmPremium();
+
 }
 function closeModal(){
   modalRoot.hidden = true;
@@ -54,6 +57,10 @@ function bindHotspots() {
   const stump = document.querySelector('.hotspot--stump');
   const plus  = document.querySelector('.hotspot--plus');
   const gift = document.querySelector('.hotspot--gift');
+  document.querySelector('.hotspot--profile')?.addEventListener('click', () => {
+  openModal('profile');
+});
+
   if (gift) {
   gift.addEventListener('click', () => openModal('prizes'));
 }
@@ -72,6 +79,7 @@ function bindHotspots() {
     });
   } else if (DEBUG) { console.warn('[bindHotspots] .hotspot--plus not found'); }
 }
+
 bindHotspots();
 
 // Попап №1
@@ -163,6 +171,98 @@ function initPrizesPopup(){
     closeModal();
   });
 }
+// ---- состояние (пока заглушки; потом подтянем из TG/сервера) ----
+const STATE = {
+  coins: 0,                // монеты (из попапа №2 - позже)
+  pricePremium: 500,       // стоимость премиума (пример)
+  hasPremium: false,       // куплен ли премиум
+  totalPhotos: 0           // всего загруженных фото
+};
+
+// помощники
+function computeShowTimeSec(totalPhotos /*, hasPremium*/) {
+  // базово 20 сек + 1 сек за каждые 100 фото
+  const extra = Math.floor(Number(totalPhotos || 0) / 100);
+  return 20 + extra;
+}
+
+// ---- Попап #4: Профиль / Премиум ----
+function initProfilePopup(){
+  const root = modalRoot.querySelector('.profile-popup');
+  if (!root) return;
+
+  // подставим ник и аватар TG, если доступны
+  try {
+    const tgUser = window.Telegram?.WebApp?.initDataUnsafe?.user;
+    if (tgUser) {
+      const name = tgUser.username ? '@' + tgUser.username : (tgUser.first_name || 'User');
+      root.querySelector('[data-username]').textContent = name;
+      if (tgUser.photo_url) {
+        const av = root.querySelector('[data-avatar]');
+        av.style.backgroundImage = `url('${tgUser.photo_url}')`;
+      }
+    }
+  } catch(_) {}
+
+  const btn = root.querySelector('[data-btn-premium]');
+  const pillPhotos = root.querySelector('[data-photo-count]');
+  const showSec = root.querySelector('[data-show-seconds]');
+
+  function render(){
+    pillPhotos.textContent = String(STATE.totalPhotos);
+    showSec.textContent = computeShowTimeSec(STATE.totalPhotos, STATE.hasPremium) + ' сек';
+
+    if (STATE.hasPremium) {
+      btn.classList.add('is-owned');
+      btn.textContent = 'Премиум';
+      btn.disabled = true;
+    } else {
+      btn.classList.remove('is-owned');
+      btn.textContent = 'Получить премиум';
+      btn.disabled = false;
+    }
+  }
+  render();
+
+  btn.addEventListener('click', () => {
+    if (STATE.hasPremium) return;
+
+    // недостаточно монет -> открываем покупку (попап №2)
+    if (STATE.coins < STATE.pricePremium) {
+      closeModal();
+      openModal('buy-stars');
+      return;
+    }
+
+    // монет хватает -> подтверждение
+    openModal('confirm-premium');
+  });
+}
+
+// ---- Мини-подтверждение покупки премиума ----
+function initConfirmPremium(){
+  const root = modalRoot.querySelector('.confirm-popup');
+  if (!root) return;
+
+  const yes = root.querySelector('[data-confirm-yes]');
+  yes.addEventListener('click', () => {
+    if (STATE.hasPremium) { closeModal(); return; }
+    if (STATE.coins < STATE.pricePremium) {
+      // на всякий случай, если состояние изменилось
+      closeModal();
+      openModal('buy-stars');
+      return;
+    }
+    // списываем монеты и активируем премиум
+    STATE.coins -= STATE.pricePremium;
+    STATE.hasPremium = true;
+
+    // закрыть подтверждение и показать профиль обновлённым
+    closeModal();
+    openModal('profile');
+  });
+}
+
 
 
 // Подстраховка выбора фона (оставляем)
