@@ -1,47 +1,36 @@
-// Telegram WebApp
+// --- Telegram WebApp ---
 if (window.Telegram && window.Telegram.WebApp) {
   try { window.Telegram.WebApp.expand(); } catch(e) {}
 }
 
-// ===== Глобальное состояние
-const STATE = {
-  coins: 0,           // баланс PLAMc
-  hasPremium: false,
-  pricePremium: 500,  // заглушка
-  totalPhotos: 0
-};
+// --- Глобальный state (храним баланс/премиум/счётчики) ---
+window.PLAM = window.PLAM || { balance: 0, premium: false, photoCount: 0 };
 
-// ===== Модалка
+// --- Модалка ---
 const modalRoot = document.querySelector('[data-modal-root]');
 const modalContent = document.querySelector('[data-modal-content]');
 
-const ScrollLock = {
-  lock(){ document.documentElement.style.overflow = 'hidden'; },
-  unlock(){ document.documentElement.style.overflow = ''; }
-};
-
 function openModal(id){
   const tpl = document.getElementById(`tpl-${id}`);
-  if(!tpl) return;
+  if (!tpl) return;
   modalContent.innerHTML = '';
   modalContent.appendChild(tpl.content.cloneNode(true));
   modalRoot.hidden = false;
   modalRoot.setAttribute('aria-hidden','false');
-  ScrollLock.lock();
+  document.documentElement.style.overflow = 'hidden';
 
-  // инициализации
-  if(id === 'upload-popup') initUploadPopup();
-  if(id === 'buy-stars')    initBuyStars();
-  if(id === 'prizes')       initPrizes();
-  if(id === 'profile')      initProfile();
-  if(id === 'confirm-premium') initConfirmPremium();
+  if (id === 'upload-popup') initUploadPopup();
+  if (id === 'buy-stars')    initBuyStars();
+  if (id === 'prizes')       initPrizes();
+  if (id === 'profile')      initProfile();
+  if (id === 'confirm-premium') initConfirmPremium();
 }
 
 function closeModal(){
   modalRoot.hidden = true;
   modalRoot.setAttribute('aria-hidden','true');
   modalContent.innerHTML = '';
-  ScrollLock.unlock();
+  document.documentElement.style.overflow = '';
 }
 
 document.addEventListener('click', (e) => {
@@ -53,63 +42,66 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && !modalRoot.hidden) closeModal();
 });
 
-// ===== Индикатор баланса на плюс-облаке
-function renderPlusBalance(){
+// --- Индикатор на плюс-облаке ---
+function updatePlusBalanceUI(){
   const el = document.querySelector('.hotspot--plus [data-plus-balance]');
-  if (el) el.textContent = String(STATE.coins);
+  if (el) el.textContent = String(window.PLAM.balance || 0);
 }
-renderPlusBalance();
+updatePlusBalanceUI();
 
-// ====== Попап №1 — загрузка фото
+// --- Попап 1: загрузка фото ---
 function initUploadPopup(){
   const root = modalRoot.querySelector('.upload-popup');
-  if(!root) return;
+  if (!root) return;
 
+  // файл
   const fileInput = root.querySelector('#file-input');
   root.querySelector('.btn-pick')?.addEventListener('click', ()=>fileInput?.click());
 
+  // слайдер
   const range = root.querySelector('.range');
   const starsEl = root.querySelector('[data-stars]');
   const secsEl  = root.querySelector('[data-secs]');
-  if(range && starsEl && secsEl){
-    const update = () => {
-      const v = parseInt(range.value, 10) || 0;
-      starsEl.textContent = `${v} PLAMc`;
-      secsEl.textContent  = `${v} сек`;
-    };
-    range.addEventListener('input', update);
-    update();
-  }
+  const upd = () => {
+    const v = parseInt(range.value || '0', 10) || 0;
+    starsEl.textContent = `${v} PLAMc`;
+    secsEl.textContent  = `${v} сек`;
+  };
+  range.addEventListener('input', upd); upd();
 
-  const form = root.querySelector('[data-upload-form]');
-  if(form){
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const need = parseInt(range?.value || '0', 10) || 0;
+  // отправка
+  root.querySelector('[data-upload-form]')?.addEventListener('submit', (e)=>{
+    e.preventDefault();
+    const need = parseInt(range.value || '0', 10) || 0;
 
-      if (need > 0 && STATE.coins <= 0) { alert('Недостаточно PLAMc'); return; }
-      if (need > STATE.coins) { alert('Недостаточно PLAMc'); return; }
+    if (need > 0 && (window.PLAM.balance||0) <= 0) {
+      alert('Недостаточно PLAMc');
+      return;
+    }
+    if (need > (window.PLAM.balance||0)) {
+      alert('Недостаточно PLAMc');
+      return;
+    }
 
-      // списываем
-      STATE.coins -= need;
-      renderPlusBalance();
+    // списываем и обновляем индикатор
+    window.PLAM.balance -= need;
+    updatePlusBalanceUI();
 
-      // TODO: отправка на сервер/в TG
-      closeModal();
-    });
-  }
+    // TODO: отправка на сервер/TG
+    closeModal();
+  });
 }
 
-// ====== Попап №2 — покупка
+// --- Попап 2: магазин ---
 function initBuyStars(){
   const root = modalRoot.querySelector('.shop-popup');
-  if(!root) return;
+  if (!root) return;
 
   root.querySelectorAll('.shop-item').forEach(btn=>{
     btn.addEventListener('click', ()=>{
       const amount = Number(btn.dataset.amount || 0);
-      STATE.coins += amount;
-      renderPlusBalance();
+      window.PLAM.balance = (window.PLAM.balance||0) + amount;
+      updatePlusBalanceUI();
 
       if (window.Telegram?.WebApp) {
         try { window.Telegram.WebApp.sendData(JSON.stringify({type:'buyStars', amount})); } catch(_) {}
@@ -118,78 +110,90 @@ function initBuyStars(){
   });
 }
 
-// ====== Попап №3 — призы
+// --- Попап 3: призы ---
 function initPrizes(){
   const root = modalRoot.querySelector('.prizes-popup');
-  if(!root) return;
+  if (!root) return;
 
   const payBtn = root.querySelector('.btn-pay');
-  const sync = () => {
-    const anyChecked = root.querySelector('.check-input:checked');
-    payBtn.disabled = !anyChecked;
-  };
-  root.addEventListener('change', (e)=>{
-    if(e.target.matches('.check-input')) sync();
-  });
+  const sync = () => payBtn.disabled = !root.querySelector('.check-input:checked');
+  root.addEventListener('change', (e)=>{ if (e.target.matches('.check-input')) sync(); });
   sync();
 
   payBtn.addEventListener('click', ()=>{
-    // TODO: здесь будет вызов выплаты
+    // TODO: логика выплаты
     closeModal();
   });
 }
 
-// ====== Попап №4 — профиль/премиум
+// --- Попап 4: профиль ---
 function initProfile(){
   const root = modalRoot.querySelector('.profile-popup');
-  if(!root) return;
+  if (!root) return;
 
-  // Заглушки аватар/ник
-  root.querySelector('[data-username]').textContent = '@tg profile';
-  // root.querySelector('[data-avatar]').style.backgroundImage = `url(...)`;
+  const avatarEl   = root.querySelector('[data-avatar]');
+  const usernameEl = root.querySelector('[data-username]');
+  const btnPremium = root.querySelector('[data-btn-premium]');
 
-  // Премиум
-  const btn = root.querySelector('[data-btn-premium]');
-  const updateBtn = () => {
-    if (STATE.hasPremium){
-      btn.textContent = 'Премиум';
-      btn.classList.add('is-owned');
-      btn.disabled = true;
+  // данные TG (если доступны)
+  const tg  = window.Telegram?.WebApp;
+  const usr = tg?.initDataUnsafe?.user || null;
+  const firstLast = usr ? [usr.first_name, usr.last_name].filter(Boolean).join(' ') : '';
+  const handle    = usr?.username ? '@' + usr.username : (firstLast || '@tg profile');
+
+  usernameEl.textContent = handle;
+  if (usr?.photo_url) avatarEl.style.backgroundImage = `url("${usr.photo_url}")`;
+
+  // заполняем статистику
+  root.querySelector('[data-photo-count]').textContent = String(window.PLAM.photoCount || 0);
+  const secs = 20 + Math.floor((window.PLAM.photoCount || 0) / 100);
+  root.querySelector('[data-show-seconds]').textContent = `${secs} сек`;
+
+  // кнопка премиума
+  const setBtn = ()=>{
+    if (window.PLAM.premium){
+      btnPremium.textContent = 'Премиум';
+      btnPremium.classList.add('is-owned');
+      btnPremium.disabled = true;
     } else {
-      btn.textContent = 'Получить премиум';
-      btn.classList.remove('is-owned');
-      btn.disabled = false;
+      btnPremium.textContent = 'Получить премиум';
+      btnPremium.classList.remove('is-owned');
+      btnPremium.disabled = false;
     }
   };
-  updateBtn();
+  setBtn();
 
-  btn.addEventListener('click', ()=>{
-    if (STATE.hasPremium) return;
+  btnPremium.addEventListener('click', ()=>{
+    if (window.PLAM.premium) return;
     openModal('confirm-premium');
   });
-
-  // Фотостатистика (заглушка)
-  root.querySelector('[data-photo-count]').textContent = String(STATE.totalPhotos);
-  const seconds = 20 + Math.floor(STATE.totalPhotos / 100);
-  root.querySelector('[data-show-seconds]').textContent = `${seconds} сек`;
 }
 
-// Мини-подтверждение премиума
+// --- Подтверждение покупки премиума ---
 function initConfirmPremium(){
   const root = modalRoot.querySelector('.confirm-popup');
-  if(!root) return;
+  if (!root) return;
 
   root.querySelector('[data-confirm-yes]')?.addEventListener('click', ()=>{
-    // проверим баланс (условно стоимость премиума)
-    if (STATE.coins < STATE.pricePremium){
-      closeModal();
-      // денег мало — отправляем в покупку
-      openModal('buy-stars');
-      return;
+    const price = 500; // заглушка цены
+    if ((window.PLAM.balance||0) < price){
+      closeModal(); openModal('buy-stars'); return;
     }
-    STATE.coins -= STATE.pricePremium;
-    STATE.hasPremium = true;
-    renderPlusBalance();
+    window.PLAM.balance -= price;
+    window.PLAM.premium  = true;
+    updatePlusBalanceUI();
     closeModal();
+    openModal('profile');
   });
 }
+
+// --- DEBUG хот-споты: ?debug=1 в адресе или Shift+D ---
+(function debugHotspots(){
+  const on = /[?&]debug=1/.test(location.search);
+  if (on) document.body.classList.add('__debug');
+  window.addEventListener('keydown', (e)=>{
+    if ((e.key === 'D' || e.key === 'd') && e.shiftKey){
+      document.body.classList.toggle('__debug');
+    }
+  });
+})();
