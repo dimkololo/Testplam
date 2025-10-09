@@ -23,6 +23,12 @@
   --plus-x-s:243; --plus-y-s:122; --plus-w-s:150; --plus-h-s:70;
   --plus-x-l:560; --plus-y-l:150; --plus-w-l:330; --plus-h-l:150; /* подвинул левее для больших */
 
+  /* ===== Облако с плюсом: число и иконка валюты ===== */
+  --plus-font-m: 26px;      /* размер шрифта на средних */
+  --plus-icon-m: 22px;      /* размер иконки 🌍 на средних */
+  --plus-gap-m: 8px;        /* зазор между числом и иконкой */
+  --plus-padleft-m: 44px;   /* отступ слева, чтобы не наезжать на кружок "+" в облаке */
+
   /* Подарок */
   --gift-x-m:305; --gift-y-m:740; --gift-w-m:130; --gift-h-m:100;
   --gift-x-s:230; --gift-y-s:480; --gift-w-s:100; --gift-h-s:80;
@@ -98,6 +104,53 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);
   font-weight:800; color:#FFE29A; text-shadow:0 2px 2px rgba(0,0,0,.25);
   font-variant-numeric:tabular-nums;
   font-size:clamp(14px,2.6vw,30px);
+}
+
+.hotspot--plus .plus-ui{
+  position:absolute;
+  inset:0;                               /* во всю кнопку-облако */
+  display:flex;
+  align-items:center;
+  justify-content:center;                /* число по центру облака */
+  padding-left: var(--plus-padleft-m);   /* смещаем вправо от значка "+" */
+  gap: var(--plus-gap-m);
+  pointer-events:none;                   /* не забираем клики у кнопки */
+}
+
+.hotspot--plus .plus-value{
+  color:#F6E3A8;                         /* кремовый из облаков */
+  font-weight:800;
+  font-size: var(--plus-font-m);
+  line-height:1;
+  letter-spacing: .5px;
+  text-shadow: 0 2px 4px rgba(0,0,0,.25);
+}
+
+.hotspot--plus .plus-currency{
+  width: var(--plus-icon-m);
+  height: var(--plus-icon-m);
+  flex: 0 0 auto;
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,.25));
+}
+
+/* SMALL */
+@media (max-width:360px),(max-height:640px){
+  :root{
+    --plus-font-m: 20px;
+    --plus-icon-m: 18px;
+    --plus-gap-m: 6px;
+    --plus-padleft-m: 36px;
+  }
+}
+
+/* LARGE */
+@media (min-width:768px),(min-height:1024px){
+  :root{
+    --plus-font-m: 34px;
+    --plus-icon-m: 28px;
+    --plus-gap-m: 10px;
+    --plus-padleft-m: 56px;
+  }
 }
 
 /* small */
