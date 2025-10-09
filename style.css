@@ -69,7 +69,7 @@
   --notebook-h-m: 110;
 
   /* large */
-  --notebook-x-l: 200;
+  --notebook-x-l: 170;
   --notebook-y-l: 1070;  /* было 1120 → выше на 30px */
   --notebook-w-l: 220;
   --notebook-h-l: 160;
