@@ -18,17 +18,17 @@
   --lw:834; --lh:1194;        /* large */
 
   /* координаты центра пня (с расширенной зоной) */
-  --stump-x-m: 340;  /* было 294 */
-  --stump-y-m: 610;  /* было 526 */
+ --stump-x-m: 340; --stump-y-m: 610;
+  --stump-x-s: 285; --stump-y-s: 440;
+  --stump-x-l: 710; --stump-y-l: 890;
 
-  --stump-x-s: 285;  /* для маленьких экранов — смещаем чуть вправо */
-  --stump-y-s: 440;  /* чуть ниже */
+  --hot-w-m: 260; --hot-h-m: 130;
+  --hot-w-s: 200; --hot-h-s: 100;
+  --hot-w-l: 350; --hot-h-l: 160;
 
-  --stump-x-l: 710;  /* для больших — немного правее */
-  --stump-y-l: 890;  /* чуть ниже */
-  --hot-w-m: 260;  --hot-h-m: 130;  --hot-off-x-m: -50;
-  --hot-w-s: 200;  --hot-h-s: 100;  --hot-off-x-s: -40;
-  --hot-w-l: 350;  --hot-h-l: 160;  --hot-off-x-l: -70;
+   --shift-x-m: -60;  --shift-y-m: 0;
+  --shift-x-s: -45;  --shift-y-s: 0;
+  --shift-x-l: -80;  --shift-y-l: 0;
 
   /* координаты облака с плюсом */
   --plus-x-m:292; --plus-y-m:170; --plus-w-m:200; --plus-h-m:90;
@@ -89,10 +89,12 @@ html,body{
 
 /* Пенёк (medium) */
 .hotspot--stump{
-  left:calc((var(--stump-x-m)+var(--hot-off-x-m))/var(--design-w)*100%);
-  top:calc(var(--stump-y-m)/var(--design-h)*100%);
-  width:calc(var(--hot-w-m)/var(--design-w)*100%);
-  height:calc(var(--hot-h-m)/var(--design-h)*100%);
+  /* центр + небольшой сдвиг */
+  left:  calc( (var(--stump-x-m) + var(--shift-x-m)) / var(--design-w) * 100% );
+  top:   calc( (var(--stump-y-m) + var(--shift-y-m)) / var(--design-h) * 100% );
+  width: calc(  var(--hot-w-m) / var(--design-w) * 100% );
+  height:calc(  var(--hot-h-m) / var(--design-h) * 100% );
+  transform: translate(-50%, -50%); /* якорь по центру зоны */
 }
 
 /* Облако с плюсом (medium) */
@@ -107,10 +109,11 @@ html,body{
 @media (max-width:360px){
   .stage{--design-w:var(--sw);--design-h:var(--sh);}
   .hotspot--stump{
-    left:calc((var(--stump-x-s)+var(--hot-off-x-s))/var(--design-w)*100%);
-    top:calc(var(--stump-y-s)/var(--design-h)*100%);
-    width:calc(var(--hot-w-s)/var(--design-w)*100%);
-    height:calc(var(--hot-h-s)/var(--design-h)*100%);
+    left:  calc( (var(--stump-x-s) + var(--shift-x-s)) / var(--design-w) * 100% );
+    top:   calc( (var(--stump-y-s) + var(--shift-y-s)) / var(--design-h) * 100% );
+    width: calc(  var(--hot-w-s) / var(--design-w) * 100% );
+    height:calc(  var(--hot-h-s) / var(--design-h) * 100% );
+    transform: translate(-50%, -50%);
   }
   .hotspot--plus{
     left:calc(var(--plus-x-s)/var(--design-w)*100%);
@@ -124,10 +127,11 @@ html,body{
 @media (min-width:768px),(min-height:1024px){
   .stage{--design-w:var(--lw);--design-h:var(--lh);}
   .hotspot--stump{
-    left:calc((var(--stump-x-l)+var(--hot-off-x-l))/var(--design-w)*100%);
-    top:calc(var(--stump-y-l)/var(--design-h)*100%);
-    width:calc(var(--hot-w-l)/var(--design-w)*100%);
-    height:calc(var(--hot-h-l)/var(--design-h)*100%);
+    left:  calc( (var(--stump-x-l) + var(--shift-x-l)) / var(--design-w) * 100% );
+    top:   calc( (var(--stump-y-l) + var(--shift-y-l)) / var(--design-h) * 100% );
+    width: calc(  var(--hot-w-l) / var(--design-w) * 100% );
+    height:calc(  var(--hot-h-l) / var(--design-h) * 100% );
+    transform: translate(-50%, -50%);
   }
   .hotspot--plus{
     left:calc(var(--plus-x-l)/var(--design-w)*100%);
