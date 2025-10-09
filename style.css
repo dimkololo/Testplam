@@ -146,7 +146,7 @@ html,body{
 
   /* размеры текста/иконки в облаке для small */
   :root{
-    --plus-font-m:20px;
+    --plus-font-m:18px;
     --plus-icon-m:18px;
     --plus-gap-m:6px;
     --plus-padleft-m:50px;
