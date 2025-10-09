@@ -32,6 +32,16 @@
       <button class="hotspot hotspot--plus"
               data-open-modal="buy-stars"
               aria-label="Открыть попап звёзд"></button>
+      <!-- Хот-спот плюса -->
+      <button class="hotspot hotspot--plus"
+        data-open-modal="buy-stars"
+        aria-label="Открыть попап звёзд"></button>
+
+        <!-- 🔸 Индикатор баланса PLAMc поверх облака -->
+        <div class="plus-indicator" aria-hidden="true">
+          <span class="plus-text">+ <span data-plus-balance>0</span></span>
+        </div>
+
       <button class="hotspot hotspot--gift"
         data-open-modal="prizes"
         aria-label="Открыть попап призов"></button>
@@ -86,13 +96,7 @@
         <h3 class="shop-title">Пополнить</h3>
         <p class="shop-subtitle">Выберите количество звезд</p>
       </div>
-      <!-- 🔸 БАЛАНС PLAMc -->
-      <div class="wallet">
-        <input class="wallet-input" data-balance-input readonly value="0" aria-label="Баланс PLAMc">
-        <img class="wallet-icon" src="./bgicons/earth-item.png"
-             srcset="./bgicons/earth-item.png 1x, ./bgicons/earth-item@2x.png 2x" alt="">
-        <span class="wallet-unit">PLAMc</span>
-      </div>
+      
 
       <!-- Список плашек-строк (каждая — отдельная) -->
       <div class="shop-list">
