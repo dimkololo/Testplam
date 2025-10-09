@@ -25,17 +25,17 @@
   --hot-w-m: 190;     /* было 260 — уже по ширине (слева табличка, справа пенёк) */
   --hot-h-m: 120;
   --hot-w-s: 200; --hot-h-s: 100;
-  --hot-w-l: 280; --hot-h-l: 200;
+  --hot-w-l: 240; --hot-h-l: 200;
 
    --shift-x-m: -20;   /* было -60 — меньше уводим влево */
   --shift-y-m: -50;
   --shift-x-s: -45;  --shift-y-s: 0;
-  --shift-x-l: -60;  --shift-y-l: -50;
+  --shift-x-l: -80;  --shift-y-l: -50;
 
   /* координаты облака с плюсом */
   --plus-x-m:292; --plus-y-m: 150; --plus-w-m:200; --plus-h-m:90;
   --plus-x-s:243; --plus-y-s:122; --plus-w-s:150; --plus-h-s:70;
-  --plus-x-l:620; --plus-y-l:190; --plus-w-l:360; --plus-h-l:150;
+  --plus-x-l:620; --plus-y-l:170; --plus-w-l:360; --plus-h-l:150;
 }
 
 /* ===============================
