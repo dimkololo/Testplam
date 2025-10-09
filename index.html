@@ -35,6 +35,10 @@
       <button class="hotspot hotspot--gift"
         data-open-modal="prizes"
         aria-label="Открыть попап призов"></button>
+      <button class="hotspot hotspot--profile"
+        data-open-modal="profile"
+        aria-label="Открыть профиль"></button>
+
     </div>
   </main>
 
@@ -234,6 +238,54 @@
     </p>
   </section>
 </template>
+  <!-- Попап №4 — Профиль / Премиум -->
+<template id="tpl-profile">
+  <section class="popup profile-popup">
+    <!-- Шапка с аватаром, ником и кнопкой -->
+    <div class="chip profile-header">
+      <div class="avatar" data-avatar></div>
+      <div class="profile-id" data-username>@tg profile</div>
+
+      <!-- Кнопка премиума (меняет состояние: Купить / Премиум ✓) -->
+      <button class="btn-premium" type="button" data-btn-premium>
+        Получить премиум
+      </button>
+    </div>
+
+    <!-- Блок “Количество фото” + дисклеймер -->
+    <div class="chip profile-card">
+      <div class="row">
+        <div class="label-left">Количество фото:</div>
+        <div class="pill pill-orange" data-photo-count>0</div>
+      </div>
+      <div class="hint">
+        Количество фото влияет на время их отображения. 100 фото = +1 секунда
+      </div>
+    </div>
+
+    <!-- Блок “Время показа фото” -->
+    <div class="chip profile-card">
+      <div class="row">
+        <div class="label-left">Время показа фото:</div>
+        <div class="val-right" data-show-seconds>20 сек</div>
+      </div>
+    </div>
+  </section>
+</template>
+
+<!-- Мини-попап подтверждения покупки премиума -->
+<template id="tpl-confirm-premium">
+  <section class="popup confirm-popup">
+    <div class="chip confirm-card">
+      <p class="confirm-text">Вы хотите получить премиум?</p>
+      <div class="confirm-actions">
+        <button class="btn-confirm yes" type="button" data-confirm-yes>Да</button>
+        <button class="btn-confirm no"  type="button" data-dismiss>Нет</button>
+      </div>
+    </div>
+  </section>
+</template>
+
 
 
   <script src="./app.js?v=24"></script>
