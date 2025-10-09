@@ -73,6 +73,12 @@
   --notebook-y-l: 1070;  /* было 1120 → выше на 30px */
   --notebook-w-l: 220;
   --notebook-h-l: 160;
+   
+   /* Сдвиги внутри облака (в пикселях макета) — можно подправить по вкусу */
+   --plus-label-dx-s: 16;  --plus-label-dy-s:  2;
+  --plus-label-dx-m: 20;  --plus-label-dy-m:  4;
+  --plus-label-dx-l: 28;  --plus-label-dy-l:  6;
+
 }
 
 
@@ -237,6 +243,56 @@ html,body{
     top:   calc(var(--notebook-y-l) / var(--design-h) * 100%);
     width: calc(var(--notebook-w-l) / var(--design-w) * 100%);
     height:calc(var(--notebook-h-l) / var(--design-h) * 100%);
+  }
+}
+/* базовые стили текста */
+.plus-indicator{
+  position:absolute;
+  z-index:3;               /* выше фона и ниже модалки */
+  pointer-events:none;     /* не мешает нажатию на облако */
+  font-weight:800;
+  color:#FFE29A;           /* мягкий жёлтый как на макете */
+  text-shadow: 0 2px 2px rgba(0,0,0,.25);
+  letter-spacing: .5px;
+}
+
+/* позиционирование (medium) — берём координаты плюса и чуть сдвигаем */
+.plus-indicator{
+  left: calc(var(--plus-x-m) / var(--design-w) * 100%);
+  top:  calc(var(--plus-y-m) / var(--design-h) * 100%);
+  transform:
+    translate(
+      calc(-50% + (var(--plus-label-dx-m) / var(--design-w) * 100%)),
+      calc(-50% + (var(--plus-label-dy-m) / var(--design-h) * 100%))
+    );
+  font-size: 24px;
+}
+
+/* small */
+@media (max-width:360px){
+  .plus-indicator{
+    left: calc(var(--plus-x-s) / var(--design-w) * 100%);
+    top:  calc(var(--plus-y-s) / var(--design-h) * 100%);
+    transform:
+      translate(
+        calc(-50% + (var(--plus-label-dx-s) / var(--design-w) * 100%)),
+        calc(-50% + (var(--plus-label-dy-s) / var(--design-h) * 100%))
+      );
+    font-size: 18px;
+  }
+}
+
+/* large */
+@media (min-width:768px), (min-height:1024px){
+  .plus-indicator{
+    left: calc(var(--plus-x-l) / var(--design-w) * 100%);
+    top:  calc(var(--plus-y-l) / var(--design-h) * 100%);
+    transform:
+      translate(
+        calc(-50% + (var(--plus-label-dx-l) / var(--design-w) * 100%)),
+        calc(-50% + (var(--plus-label-dy-l) / var(--design-h) * 100%))
+      );
+    font-size: 30px;
   }
 }
 
